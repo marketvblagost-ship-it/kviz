@@ -1,12 +1,10 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Квиз автоматизации бухгалтерии и HR</title>
-  <meta name="description" content="Бесплатная онлайн-диагностика ручных процессов в бухгалтерии и кадрах: Excel, документы, отчёты, уведомления и повторяющиеся задачи." />
-
-  <!-- BotFAQtor антибот: вставьте ваш код BotFAQtor сразу здесь, в начале <head>. -->
+  <!-- BotFAQtor antibot -->
+  <script type="text/javascript">window._ab_id_=171389</script>
+  <script src="https://cdn.botfaqtor.ru/one.js"></script>
+  <!-- /BotFAQtor antibot -->
 
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
@@ -19,7 +17,13 @@
 
       ym(109038656, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
   </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109038656" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Квиз автоматизации бухгалтерии и HR</title>
+  <meta name="description" content="Бесплатная онлайн-диагностика ручных процессов в бухгалтерии и кадрах: Excel, документы, отчёты, уведомления и повторяющиеся задачи." />
   <style>
     :root {
       --bg1: #0f172a;
@@ -528,62 +532,6 @@
       line-height: 1.45;
     }
 
-    .privacy a, .contact-links a, .footer-contact a {
-      color: #2563eb;
-      font-weight: 900;
-      text-decoration: none;
-    }
-
-    .consent {
-      display: grid;
-      grid-template-columns: 22px 1fr;
-      gap: 10px;
-      align-items: start;
-      padding: 12px 14px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fff;
-      color: #475569;
-      font-size: 12px;
-      line-height: 1.45;
-      cursor: pointer;
-    }
-
-    .consent input {
-      width: 18px;
-      height: 18px;
-      min-height: 18px;
-      margin: 1px 0 0;
-      accent-color: var(--accent2);
-      cursor: pointer;
-    }
-
-    .contact-links, .footer-contact {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .contact-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 42px;
-      padding: 10px 13px;
-      border-radius: 999px;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      color: #111827 !important;
-      font-weight: 950;
-    }
-
-    .hero .contact-pill {
-      background: rgba(255,255,255,.14);
-      color: #fff !important;
-      border-color: rgba(255,255,255,.16);
-    }
-
     .error {
       display: none;
       color: var(--danger);
@@ -641,6 +589,53 @@
       font-size: 15px;
     }
 
+
+    .contact-strip {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.22);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .consent {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin: 12px 0 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .consent input {
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      accent-color: var(--accent);
+      flex: 0 0 auto;
+    }
+
+    .consent a {
+      color: var(--accent2);
+      font-weight: 900;
+    }
+
+
     .hidden { display: none !important; }
 
     @media (max-width: 980px) {
@@ -665,7 +660,6 @@
   </style>
 </head>
 <body>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109038656" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <main class="page">
     <div class="quiz-shell">
       <aside class="hero">
@@ -692,10 +686,11 @@
 
         <div class="mini-note">
           <strong>Что получите:</strong> предварительный разбор, какую задачу стоит автоматизировать первой и какой формат подойдёт: таблица, отчёт, генератор документов, напоминания или простая внутренняя система.
-          <div class="contact-links" aria-label="Контакты">
-            <a class="contact-pill" href="tel:+79832676282" onclick="track('quiz_phone_click')">☎ +7 983 267-62-82</a>
-            <a class="contact-pill" href="https://t.me/AmalTarget" target="_blank" rel="noopener" onclick="track('quiz_tg_click')">✈ @AmalTarget</a>
-          </div>
+        </div>
+
+        <div class="contact-strip">
+          <a class="contact-pill" href="tel:+79832676282" onclick="track('quiz_phone_click')">☎ +7 983 267-62-82</a>
+          <a class="contact-pill" href="https://t.me/AmalTarget" target="_blank" rel="noopener" onclick="track('quiz_tg_click')">✈ @AmalTarget</a>
         </div>
       </aside>
 
@@ -725,10 +720,6 @@
 
             <button class="cta" id="startBtn">Начать диагностику →</button>
             <p class="privacy">Это не бухгалтерская, налоговая и не юридическая консультация. Мы автоматизируем повторяющиеся действия и ручные процессы.</p>
-            <div class="footer-contact" aria-label="Контакты">
-              <a class="contact-pill" href="tel:+79832676282" onclick="track('quiz_phone_click')">☎ +7 983 267-62-82</a>
-              <a class="contact-pill" href="https://t.me/AmalTarget" target="_blank" rel="noopener" onclick="track('quiz_tg_click')">✈ @AmalTarget</a>
-            </div>
           </div>
 
           <div class="screen" id="questionScreen">
@@ -752,13 +743,13 @@
             <form class="lead-form" id="leadForm">
               <div class="field">
                 <label for="phone">Телефон или Telegram *</label>
-                <input id="phone" name="phone" inputmode="text" autocomplete="tel" placeholder="+7 999 000-00-00 или @username" required />
+                <input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 999 000-00-00 или @username" required />
               </div>
               <div class="field">
                 <label for="name">Имя — необязательно</label>
                 <input id="name" name="name" autocomplete="name" placeholder="Как к вам обращаться" />
               </div>
-              <label class="consent" for="consent">
+              <label class="consent">
                 <input id="consent" name="consent" type="checkbox" required />
                 <span>Согласен на обработку персональных данных для связи по заявке и ознакомлен с <a href="privacy.html" target="_blank" rel="noopener">политикой обработки персональных данных</a>.</span>
               </label>
@@ -780,9 +771,7 @@
             <div class="pre-result" id="finalRecommendation"></div>
             <div class="result-box" id="resultBox"></div>
             <div class="success-actions">
-              <a class="cta" id="tgBtn" href="https://t.me/AmalTarget" target="_blank" rel="noopener" onclick="track('quiz_tg_click')">Написать в Telegram</a>
-              <a class="secondary-btn" href="tel:+79832676282" onclick="track('quiz_phone_click')">Позвонить</a>
-              <button class="secondary-btn" id="copyBtn" type="button">Скопировать заявку</button>
+              <a class="cta" id="waBtn" target="_blank" rel="noopener">Написать в Telegram</a>
               <button class="secondary-btn" id="restartBtn">Пройти заново</button>
             </div>
           </div>
@@ -794,10 +783,10 @@
   <script>
     // === НАСТРОЙКИ ===
     const CONTACT_PHONE = "+79832676282";
-    const CONTACT_TELEGRAM = "AmalTarget";
+    const TELEGRAM_USERNAME = "AmalTarget";
     const METRIKA_ID = 109038656;
 
-    // Webhook для n8n / Make / Google Apps Script. Можно оставить пустым.
+    // Единый webhook для заявок AmalSite + квиз.
     const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwcP5k9FD8E5ZUg1VCnrh-0ZgHJhmp4EAfUPsHCZ6GLAlYv8j0ebigapOLJiZB904h3NQ/exec";
 
     const flows = {
@@ -1051,10 +1040,10 @@
       preResult: $("preResult"),
       leadForm: $("leadForm"),
       formError: $("formError"),
+      consent: $("consent"),
       resultBox: $("resultBox"),
       finalRecommendation: $("finalRecommendation"),
-      tgBtn: $("tgBtn"),
-      copyBtn: $("copyBtn"),
+      waBtn: $("waBtn"),
       restartBtn: $("restartBtn")
     };
 
@@ -1146,9 +1135,6 @@
 
       if (question.id === "direction") {
         state.flow = [...flows.common, ...getBranch(option.value)];
-        if (option.value === "Бухгалтерия") track("quiz_branch_accounting");
-        if (option.value === "Кадры / HR") track("quiz_branch_hr");
-        if (option.value === "Не знаю") track("quiz_branch_unknown");
       }
 
       window.setTimeout(() => {
@@ -1259,8 +1245,7 @@
     function collectLead() {
       return {
         phone: $("phone").value.trim(),
-        name: $("name").value.trim(),
-        consent: $("consent").checked
+        name: $("name").value.trim()
       };
     }
 
@@ -1295,7 +1280,7 @@
       ui.formError.style.display = "none";
       state.lead = collectLead();
 
-      if (!state.lead.phone || !state.lead.consent) {
+      if (!state.lead.phone || !ui.consent.checked) {
         ui.formError.style.display = "block";
         return;
       }
@@ -1311,10 +1296,24 @@
 
       if (WEBHOOK_URL) {
         try {
+          const body = new URLSearchParams();
+          const applicationText = formatApplication();
+
+          body.append("source", payload.source);
+          body.append("phone", state.lead.phone || "");
+          body.append("contact", state.lead.phone || "");
+          body.append("name", state.lead.name || "");
+          body.append("message", applicationText);
+          body.append("answers", JSON.stringify(payload.answers));
+          body.append("recommendation", JSON.stringify(payload.recommendation));
+          body.append("createdAt", payload.createdAt);
+          body.append("url", payload.url);
+          body.append("data", JSON.stringify(payload));
+
           await fetch(WEBHOOK_URL, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            mode: "no-cors",
+            body
           });
         } catch (error) {
           console.warn("Webhook error", error);
@@ -1324,6 +1323,7 @@
       const text = formatApplication();
       ui.resultBox.textContent = text;
       ui.finalRecommendation.innerHTML = buildFinalRecommendationHTML();
+      ui.waBtn.href = `https://t.me/${TELEGRAM_USERNAME}`;
       showScreen("success");
       setSuccessProgress();
       track("quiz_submit", { direction: state.answers.direction, urgency: state.answers.urgency });
@@ -1332,7 +1332,7 @@
     function restart() {
       $("phone").value = "";
       $("name").value = "";
-      $("consent").checked = false;
+      if (ui.consent) ui.consent.checked = false;
       startQuiz();
     }
 
@@ -1348,11 +1348,12 @@
     function track(eventName, params = {}) {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: eventName, ...params });
-      window.dispatchEvent(new CustomEvent(eventName, { detail: params }));
 
       if (typeof ym === "function" && METRIKA_ID) {
         ym(METRIKA_ID, "reachGoal", eventName, params);
       }
+
+      window.dispatchEvent(new CustomEvent(eventName, { detail: params }));
     }
 
     $("startBtn").addEventListener("click", startQuiz);
@@ -1362,15 +1363,6 @@
       setProgress();
     });
     ui.leadForm.addEventListener("submit", submitLead);
-    ui.copyBtn.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(ui.resultBox.textContent || "");
-        ui.copyBtn.textContent = "Скопировано";
-        window.setTimeout(() => ui.copyBtn.textContent = "Скопировать заявку", 1600);
-      } catch (error) {
-        console.warn("Copy error", error);
-      }
-    });
     ui.restartBtn.addEventListener("click", restart);
 
     setProgress();
