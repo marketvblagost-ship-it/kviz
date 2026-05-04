@@ -766,12 +766,16 @@
 
           <div class="screen" id="successScreen">
             <div class="success-icon">✓</div>
-            <h2>Заявка готова</h2>
-            <p class="subtitle">Квиз собрал ответы. Заявка отправлена в единый источник заявок. Ниже — копия заявки для проверки.</p>
-            <div class="pre-result" id="finalRecommendation"></div>
-            <div class="result-box" id="resultBox"></div>
+            <h2>Спасибо! Заявка получена</h2>
+            <p class="subtitle">Мы получили ваши ответы и свяжемся с вами в течение дня. Если вопрос срочный — напишите в Telegram или позвоните.</p>
+            <div class="pre-result thanks-card" id="finalRecommendation">
+              <strong>Что будет дальше</strong>
+              <p>Посмотрим ответы, уточним 1–2 детали и предложим самый простой вариант автоматизации: таблица, скрипт, шаблон, уведомления или мини-система.</p>
+            </div>
+            <div class="result-box" id="resultBox" hidden></div>
             <div class="success-actions">
               <a class="cta" id="waBtn" target="_blank" rel="noopener">Написать в Telegram</a>
+              <a class="secondary-btn" href="tel:+79832676282" onclick="track('quiz_phone_click')">Позвонить</a>
               <button class="secondary-btn" id="restartBtn">Пройти заново</button>
             </div>
           </div>
@@ -1294,39 +1298,77 @@
         url: window.location.href
       };
 
-      if (WEBHOOK_URL) {
-        try {
-          const body = new URLSearchParams();
-          const applicationText = formatApplication();
-
-          body.append("source", payload.source);
-          body.append("phone", state.lead.phone || "");
-          body.append("contact", state.lead.phone || "");
-          body.append("name", state.lead.name || "");
-          body.append("message", applicationText);
-          body.append("answers", JSON.stringify(payload.answers));
-          body.append("recommendation", JSON.stringify(payload.recommendation));
-          body.append("createdAt", payload.createdAt);
-          body.append("url", payload.url);
-          body.append("data", JSON.stringify(payload));
-
-          await fetch(WEBHOOK_URL, {
-            method: "POST",
-            mode: "no-cors",
-            body
-          });
-        } catch (error) {
-          console.warn("Webhook error", error);
-        }
-      }
-
       const text = formatApplication();
-      ui.resultBox.textContent = text;
-      ui.finalRecommendation.innerHTML = buildFinalRecommendationHTML();
+      const body = buildWebhookBody(payload, text);
+      submitWebhookForm(body);
+
+      if (ui.resultBox) ui.resultBox.textContent = text;
+      ui.finalRecommendation.innerHTML = `
+        <strong>Что будет дальше</strong>
+        <p>Посмотрим ответы, уточним 1–2 детали и предложим самый простой вариант автоматизации: таблица, скрипт, шаблон, уведомления или мини-система.</p>
+      `;
       ui.waBtn.href = `https://t.me/${TELEGRAM_USERNAME}`;
       showScreen("success");
       setSuccessProgress();
       track("quiz_submit", { direction: state.answers.direction, urgency: state.answers.urgency });
+    }
+
+    function buildWebhookBody(payload, applicationText) {
+      const body = new URLSearchParams();
+      body.append("source", payload.source);
+      body.append("phone", state.lead.phone || "");
+      body.append("contact", state.lead.phone || "");
+      body.append("name", state.lead.name || "");
+      body.append("message", applicationText);
+      body.append("answers", JSON.stringify(payload.answers));
+      body.append("recommendation", JSON.stringify(payload.recommendation));
+      body.append("createdAt", payload.createdAt);
+      body.append("url", payload.url);
+      body.append("page", payload.url);
+      body.append("data", JSON.stringify(payload));
+      return body;
+    }
+
+    function submitWebhookForm(body) {
+      if (!WEBHOOK_URL) return;
+
+      try {
+        const frameName = "leadWebhookFrame_" + Date.now();
+        const iframe = document.createElement("iframe");
+        iframe.name = frameName;
+        iframe.style.display = "none";
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = WEBHOOK_URL;
+        form.target = frameName;
+        form.style.display = "none";
+
+        body.forEach((value, key) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = key;
+          input.value = value;
+          form.appendChild(input);
+        });
+
+        document.body.appendChild(iframe);
+        document.body.appendChild(form);
+        form.submit();
+
+        window.setTimeout(() => {
+          form.remove();
+          iframe.remove();
+        }, 12000);
+      } catch (error) {
+        console.warn("Webhook form error", error);
+
+        fetch(WEBHOOK_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body
+        }).catch(fetchError => console.warn("Webhook fetch error", fetchError));
+      }
     }
 
     function restart() {
