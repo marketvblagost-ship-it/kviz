@@ -1,0 +1,1379 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Квиз автоматизации бухгалтерии и HR</title>
+  <meta name="description" content="Бесплатная онлайн-диагностика ручных процессов в бухгалтерии и кадрах: Excel, документы, отчёты, уведомления и повторяющиеся задачи." />
+
+  <!-- BotFAQtor антибот: вставьте ваш код BotFAQtor сразу здесь, в начале <head>. -->
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109038656', 'ym');
+
+      ym(109038656, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <!-- /Yandex.Metrika counter -->
+  <style>
+    :root {
+      --bg1: #0f172a;
+      --bg2: #312e81;
+      --bg3: #0ea5e9;
+      --card: rgba(255,255,255,.94);
+      --text: #111827;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --accent: #ff5a1f;
+      --accent2: #2563eb;
+      --accent3: #14b8a6;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --radius: 28px;
+      --shadow: 0 30px 90px rgba(2, 6, 23, .26);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 8%, rgba(255, 90, 31, .46), transparent 26%),
+        radial-gradient(circle at 92% 20%, rgba(20, 184, 166, .40), transparent 28%),
+        radial-gradient(circle at 50% 90%, rgba(37, 99, 235, .42), transparent 34%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 52%, #075985);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.7), transparent 90%);
+      pointer-events: none;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px 14px;
+      position: relative;
+    }
+
+    .quiz-shell {
+      width: 100%;
+      max-width: 1080px;
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .hero, .quiz {
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero {
+      overflow: hidden;
+      min-height: 690px;
+      padding: 30px;
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(15,23,42,.78), rgba(15,23,42,.56)),
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,.18), transparent 24%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      right: -80px;
+      bottom: -70px;
+      background: radial-gradient(circle, rgba(255,255,255,.20), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    .kicker {
+      width: max-content;
+      max-width: 100%;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      padding: 9px 13px;
+      font-size: 13px;
+      color: rgba(255,255,255,.92);
+      border: 1px solid rgba(255,255,255,.16);
+    }
+
+    .hero h1 {
+      margin: 22px 0 14px;
+      font-size: clamp(32px, 4vw, 58px);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: rgba(255,255,255,.78);
+      font-size: 17px;
+      line-height: 1.55;
+      max-width: 560px;
+    }
+
+    .hero-points {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .point {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .point-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,.14);
+      font-size: 20px;
+    }
+
+    .point strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .point span {
+      display: block;
+      color: rgba(255,255,255,.70);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .mini-note {
+      position: relative;
+      margin-top: 28px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.82);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .quiz {
+      background: var(--card);
+      overflow: hidden;
+      min-height: 690px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quiz-top {
+      padding: 24px 26px 18px;
+      border-bottom: 1px solid rgba(226,232,240,.85);
+      background: rgba(255,255,255,.70);
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .progress-track {
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #e5e7eb;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      transition: width .32s ease;
+    }
+
+    .quiz-body {
+      padding: 30px 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen {
+      display: none;
+      flex: 1;
+      animation: fade .22s ease;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: max-content;
+      max-width: 100%;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(26px, 3vw, 40px);
+      line-height: 1.08;
+      letter-spacing: -.04em;
+    }
+
+    .subtitle {
+      margin: 12px 0 22px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .option {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 20px;
+      padding: 16px;
+      min-height: 94px;
+      cursor: pointer;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: center;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+      font-family: inherit;
+      color: var(--text);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .option::after {
+      content: "→";
+      position: absolute;
+      right: 14px;
+      top: 12px;
+      color: rgba(100,116,139,.45);
+      font-weight: 900;
+      transition: transform .18s ease, color .18s ease;
+    }
+
+    .option:hover {
+      transform: translateY(-2px);
+      border-color: rgba(37,99,235,.42);
+      box-shadow: 0 14px 35px rgba(15,23,42,.09);
+      background: linear-gradient(180deg, #fff, #f8fbff);
+    }
+
+    .option:hover::after {
+      transform: translateX(3px);
+      color: var(--accent2);
+    }
+
+    .option.selected {
+      border-color: var(--accent2);
+      background: #eff6ff;
+      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+    }
+
+    .option-emoji {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      background: linear-gradient(135deg, #fff7ed, #eff6ff);
+      border: 1px solid rgba(226,232,240,.9);
+    }
+
+    .option-title {
+      display: block;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.18;
+      padding-right: 18px;
+    }
+
+    .option-hint {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      padding-right: 14px;
+    }
+
+    .bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 22px;
+    }
+
+    .back {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 10px 0;
+      font-family: inherit;
+    }
+
+    .back:hover { color: var(--text); }
+    .back:disabled { visibility: hidden; }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .start-card {
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255,90,31,.16), transparent 34%),
+        linear-gradient(180deg, #ffffff, #f8fafc);
+      border: 1px solid var(--line);
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    .start-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 18px 0 0;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 21px;
+      letter-spacing: -.03em;
+      margin-bottom: 3px;
+    }
+
+    .stat span {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.3;
+      display: block;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      width: 100%;
+      border-radius: 18px;
+      min-height: 58px;
+      padding: 16px 20px;
+      margin-top: 20px;
+      font-size: 17px;
+      font-weight: 950;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #f97316 36%, var(--accent2));
+      box-shadow: 0 18px 38px rgba(249, 115, 22, .30);
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 46px rgba(249, 115, 22, .36);
+    }
+
+    .pre-result {
+      border-radius: 24px;
+      padding: 18px;
+      background: linear-gradient(135deg, #ecfeff, #eff6ff 55%, #fff7ed);
+      border: 1px solid rgba(37,99,235,.18);
+      margin: 14px 0 18px;
+    }
+
+    .pre-result strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .pre-result p {
+      margin: 0;
+      color: #475569;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .lead-form {
+      margin-top: 8px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      color: #475569;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 18px;
+      min-height: 58px;
+      padding: 0 16px;
+      font-size: 17px;
+      outline: 0;
+      transition: border-color .18s ease, box-shadow .18s ease;
+      font-family: inherit;
+    }
+
+    input:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+    }
+
+    .privacy {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .privacy a, .contact-links a, .footer-contact a {
+      color: #2563eb;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .consent {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      color: #475569;
+      font-size: 12px;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .consent input {
+      width: 18px;
+      height: 18px;
+      min-height: 18px;
+      margin: 1px 0 0;
+      accent-color: var(--accent2);
+      cursor: pointer;
+    }
+
+    .contact-links, .footer-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      color: #111827 !important;
+      font-weight: 950;
+    }
+
+    .hero .contact-pill {
+      background: rgba(255,255,255,.14);
+      color: #fff !important;
+      border-color: rgba(255,255,255,.16);
+    }
+
+    .error {
+      display: none;
+      color: var(--danger);
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .success-icon {
+      width: 62px;
+      height: 62px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      color: var(--success);
+      background: rgba(22,163,74,.12);
+      font-size: 34px;
+      font-weight: 950;
+      margin-bottom: 16px;
+    }
+
+    .result-box {
+      margin-top: 18px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      padding: 16px;
+      color: #334155;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      max-height: 270px;
+      overflow: auto;
+    }
+
+    .success-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      min-height: 54px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 980px) {
+      .quiz-shell { grid-template-columns: 1fr; }
+      .hero { min-height: auto; }
+      .quiz { min-height: 650px; }
+      .hero-points { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 680px) {
+      .page { padding: 12px; }
+      .hero { padding: 22px; border-radius: 24px; }
+      .quiz { border-radius: 24px; min-height: 620px; }
+      .quiz-top { padding: 18px; }
+      .quiz-body { padding: 22px 18px; }
+      .options { grid-template-columns: 1fr; }
+      .option { min-height: 76px; padding: 13px; border-radius: 17px; }
+      .start-grid, .hero-points, .success-actions { grid-template-columns: 1fr; }
+      .bottom-row { align-items: flex-start; }
+      .hint { max-width: 170px; }
+    }
+  </style>
+</head>
+<body>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109038656" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <main class="page">
+    <div class="quiz-shell">
+      <aside class="hero">
+        <div>
+          <div class="kicker">⚡ Квиз на 2 минуты · без сложных терминов</div>
+          <h1>Найдём ручную работу, которую можно автоматизировать быстро</h1>
+          <p>Для бухгалтерии, кадровиков и HR: Excel, документы, отчёты, заявки, напоминания, сверки и повторяющиеся действия.</p>
+
+          <div class="hero-points">
+            <div class="point">
+              <div class="point-icon">📄</div>
+              <div><strong>Без аудита 1С</strong><span>Сначала разбираем процесс, а не лезем в настройки.</span></div>
+            </div>
+            <div class="point">
+              <div class="point-icon">⏱️</div>
+              <div><strong>Фокус на времени</strong><span>Ищем задачи, которые забирают часы каждую неделю.</span></div>
+            </div>
+            <div class="point">
+              <div class="point-icon">🧩</div>
+              <div><strong>Простые решения</strong><span>Таблицы, скрипты, шаблоны, уведомления, мини-системы.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mini-note">
+          <strong>Что получите:</strong> предварительный разбор, какую задачу стоит автоматизировать первой и какой формат подойдёт: таблица, отчёт, генератор документов, напоминания или простая внутренняя система.
+          <div class="contact-links" aria-label="Контакты">
+            <a class="contact-pill" href="tel:+79832676282" onclick="track('quiz_phone_click')">☎ +7 983 267-62-82</a>
+            <a class="contact-pill" href="https://t.me/AmalTarget" target="_blank" rel="noopener" onclick="track('quiz_tg_click')">✈ @AmalTarget</a>
+          </div>
+        </div>
+      </aside>
+
+      <section class="quiz" aria-live="polite">
+        <div class="quiz-top">
+          <div class="progress-meta">
+            <span id="stepText">Старт</span>
+            <span id="percentText">0%</span>
+          </div>
+          <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+        </div>
+
+        <div class="quiz-body">
+          <div class="screen active" id="startScreen">
+            <div class="question-label">🎯 Бесплатная онлайн-диагностика</div>
+            <h2>Узнайте, где бухгалтерия или кадры теряют время на ручной работе</h2>
+            <p class="subtitle">Ответьте на несколько коротких вопросов. После выбора варианта квиз сам перейдёт дальше — без лишних кнопок.</p>
+
+            <div class="start-card">
+              <strong>Подходит, если у вас есть:</strong>
+              <div class="start-grid">
+                <div class="stat"><strong>Excel</strong><span>несколько файлов, ручные сверки, копирование данных</span></div>
+                <div class="stat"><strong>Документы</strong><span>акты, счета, приказы, заявления, шаблоны</span></div>
+                <div class="stat"><strong>Сроки</strong><span>оплаты, отпуска, испытательные сроки, медкнижки</span></div>
+              </div>
+            </div>
+
+            <button class="cta" id="startBtn">Начать диагностику →</button>
+            <p class="privacy">Это не бухгалтерская, налоговая и не юридическая консультация. Мы автоматизируем повторяющиеся действия и ручные процессы.</p>
+            <div class="footer-contact" aria-label="Контакты">
+              <a class="contact-pill" href="tel:+79832676282" onclick="track('quiz_phone_click')">☎ +7 983 267-62-82</a>
+              <a class="contact-pill" href="https://t.me/AmalTarget" target="_blank" rel="noopener" onclick="track('quiz_tg_click')">✈ @AmalTarget</a>
+            </div>
+          </div>
+
+          <div class="screen" id="questionScreen">
+            <div class="question-label" id="questionLabel">Вопрос</div>
+            <h2 id="questionTitle"></h2>
+            <p class="subtitle" id="questionSubtitle"></p>
+            <div class="options" id="options"></div>
+            <div class="bottom-row">
+              <button class="back" id="backBtn">← Назад</button>
+              <div class="hint">Нажмите на вариант — следующий шаг откроется автоматически</div>
+            </div>
+          </div>
+
+          <div class="screen" id="contactScreen">
+            <div class="question-label">✅ Предварительный разбор готов</div>
+            <h2>Куда отправить короткую рекомендацию?</h2>
+            <p class="subtitle">Мы уже видим направление задачи. Оставьте один контакт — пришлём разбор и предложим самый простой вариант автоматизации.</p>
+
+            <div class="pre-result" id="preResult"></div>
+
+            <form class="lead-form" id="leadForm">
+              <div class="field">
+                <label for="phone">Телефон или Telegram *</label>
+                <input id="phone" name="phone" inputmode="text" autocomplete="tel" placeholder="+7 999 000-00-00 или @username" required />
+              </div>
+              <div class="field">
+                <label for="name">Имя — необязательно</label>
+                <input id="name" name="name" autocomplete="name" placeholder="Как к вам обращаться" />
+              </div>
+              <label class="consent" for="consent">
+                <input id="consent" name="consent" type="checkbox" required />
+                <span>Согласен на обработку персональных данных для связи по заявке и ознакомлен с <a href="privacy.html" target="_blank" rel="noopener">политикой обработки персональных данных</a>.</span>
+              </label>
+              <button class="cta" type="submit">Получить разбор →</button>
+              <div class="error" id="formError">Введите телефон или Telegram и отметьте согласие.</div>
+              <p class="privacy">Никаких рассылок без отдельного согласия. Контакт нужен только для ответа по заявке.</p>
+            </form>
+
+            <div class="bottom-row">
+              <button class="back" id="backFromContactBtn">← Назад</button>
+              <div class="hint">1 обязательное поле — быстрее для клиента</div>
+            </div>
+          </div>
+
+          <div class="screen" id="successScreen">
+            <div class="success-icon">✓</div>
+            <h2>Заявка готова</h2>
+            <p class="subtitle">Квиз собрал ответы. Заявка отправлена в единый источник заявок. Ниже — копия заявки для проверки.</p>
+            <div class="pre-result" id="finalRecommendation"></div>
+            <div class="result-box" id="resultBox"></div>
+            <div class="success-actions">
+              <a class="cta" id="tgBtn" href="https://t.me/AmalTarget" target="_blank" rel="noopener" onclick="track('quiz_tg_click')">Написать в Telegram</a>
+              <a class="secondary-btn" href="tel:+79832676282" onclick="track('quiz_phone_click')">Позвонить</a>
+              <button class="secondary-btn" id="copyBtn" type="button">Скопировать заявку</button>
+              <button class="secondary-btn" id="restartBtn">Пройти заново</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    // === НАСТРОЙКИ ===
+    const CONTACT_PHONE = "+79832676282";
+    const CONTACT_TELEGRAM = "AmalTarget";
+    const METRIKA_ID = 109038656;
+
+    // Webhook для n8n / Make / Google Apps Script. Можно оставить пустым.
+    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwcP5k9FD8E5ZUg1VCnrh-0ZgHJhmp4EAfUPsHCZ6GLAlYv8j0ebigapOLJiZB904h3NQ/exec";
+
+    const flows = {
+      common: [
+        {
+          id: "direction",
+          label: "Шаг 1 из 6",
+          title: "Кому нужна автоматизация?",
+          subtitle: "Выберите направление — дальше вопросы подстроятся под вашу задачу.",
+          options: [
+            { value: "Бухгалтерия", title: "Бухгалтерия", hint: "сверки, документы, отчёты, оплаты", icon: "🧾" },
+            { value: "Кадры / HR", title: "Кадры / HR", hint: "отпуска, приказы, сотрудники, сроки", icon: "👥" },
+            { value: "Не знаю", title: "Пока не знаю", hint: "хочу понять, что можно автоматизировать", icon: "🔎" }
+          ]
+        }
+      ],
+      accounting: [
+        {
+          id: "pain",
+          label: "Шаг 2 из 6",
+          title: "Что сильнее всего тормозит работу?",
+          subtitle: "Выберите одну главную боль. Остальное можно уточнить потом.",
+          options: [
+            { value: "Ручной ввод данных", title: "Ручной ввод данных", hint: "копирование из файлов, почты, 1С, банков", icon: "⌨️" },
+            { value: "Сверки Excel", title: "Сверки Excel-файлов", hint: "сравнить, найти расхождения, собрать итог", icon: "📊" },
+            { value: "Документы по шаблонам", title: "Акты, счета, накладные", hint: "много однотипных документов", icon: "📄" },
+            { value: "Оплаты и дебиторка", title: "Оплаты и дебиторка", hint: "напоминания, статусы, контроль оплат", icon: "💸" },
+            { value: "Отчёты", title: "Отчёты из разных источников", hint: "собрать данные и показать итог", icon: "📈" },
+            { value: "ЭДО / выгрузки", title: "ЭДО / выгрузки / 1С", hint: "обмен, файлы, реестры, повторные операции", icon: "🔁" }
+          ]
+        },
+        {
+          id: "where",
+          label: "Шаг 3 из 6",
+          title: "Где сейчас происходит основная работа?",
+          subtitle: "Это нужно, чтобы понять формат будущей автоматизации.",
+          options: [
+            { value: "Excel / Google Sheets", title: "Excel / Google Sheets", hint: "таблицы, формулы, сводные, файлы", icon: "🟩" },
+            { value: "1С", title: "1С", hint: "выгрузки, отчёты, документы, обмен", icon: "🟨" },
+            { value: "ЭДО", title: "СБИС / Контур / Диадок", hint: "документы и обмен с контрагентами", icon: "📨" },
+            { value: "Почта и папки", title: "Почта и папки", hint: "файлы приходят вручную и теряются", icon: "📁" },
+            { value: "Банк / маркетплейсы", title: "Банк / маркетплейсы", hint: "выписки, реестры, отчёты продаж", icon: "🏦" },
+            { value: "Везде понемногу", title: "Везде понемногу", hint: "несколько программ и нет единого порядка", icon: "🧩" }
+          ]
+        },
+        {
+          id: "volume",
+          label: "Шаг 4 из 6",
+          title: "Сколько времени это забирает?",
+          subtitle: "Примерно. Точные цифры не нужны.",
+          options: [
+            { value: "До 2 часов в неделю", title: "До 2 часов в неделю", hint: "можно сделать лёгкое улучшение", icon: "🕐" },
+            { value: "2–5 часов в неделю", title: "2–5 часов в неделю", hint: "уже есть смысл автоматизировать", icon: "⏳" },
+            { value: "5–10 часов в неделю", title: "5–10 часов в неделю", hint: "приоритетная задача", icon: "🔥" },
+            { value: "Больше 10 часов", title: "Больше 10 часов", hint: "сильная потеря времени", icon: "🚨" },
+            { value: "Не считали, но много", title: "Не считали, но много", hint: "разберём процесс по шагам", icon: "🤔" },
+            { value: "Зависит от периода", title: "Зависит от периода", hint: "особенно в конце месяца / квартала", icon: "📅" }
+          ]
+        },
+        {
+          id: "result",
+          label: "Шаг 5 из 6",
+          title: "Какой результат нужен первым?",
+          subtitle: "Выберите самый полезный итог.",
+          options: [
+            { value: "Автоматическая сверка", title: "Автоматическая сверка", hint: "сравнение файлов и поиск расхождений", icon: "✅" },
+            { value: "Автоотчёт", title: "Автоматический отчёт", hint: "данные собираются в понятный итог", icon: "📊" },
+            { value: "Генератор документов", title: "Генератор документов", hint: "акты, счета, письма по шаблону", icon: "📝" },
+            { value: "Напоминания", title: "Напоминания по срокам", hint: "оплаты, документы, статусы", icon: "🔔" },
+            { value: "Мини-система", title: "Мини-система учёта", hint: "одна понятная таблица или веб-форма", icon: "🧠" },
+            { value: "План автоматизации", title: "Сначала нужен план", hint: "понять, что делать первым", icon: "🗺️" }
+          ]
+        },
+        {
+          id: "urgency",
+          label: "Шаг 6 из 6",
+          title: "Когда хотите решить задачу?",
+          subtitle: "Это поможет отделить горячую задачу от идеи на будущее.",
+          options: [
+            { value: "Срочно", title: "Срочно", hint: "горит сейчас", icon: "🚀" },
+            { value: "В течение недели", title: "В течение недели", hint: "нужно быстро запустить", icon: "⚡" },
+            { value: "В течение месяца", title: "В течение месяца", hint: "можно спокойно внедрить", icon: "📆" },
+            { value: "Пока изучаем", title: "Пока изучаем", hint: "хотим понять возможности", icon: "👀" }
+          ]
+        }
+      ],
+      hr: [
+        {
+          id: "pain",
+          label: "Шаг 2 из 6",
+          title: "Что больше всего отнимает время у кадров / HR?",
+          subtitle: "Выберите одну главную боль. Остальное можно уточнить потом.",
+          options: [
+            { value: "Отпуска и заявления", title: "Отпуска и заявления", hint: "заявки, согласования, остатки дней", icon: "🏖️" },
+            { value: "Приказы и шаблоны", title: "Приказы и документы", hint: "однотипные шаблоны вручную", icon: "📄" },
+            { value: "Кадровые таблицы", title: "Кадровые Excel-таблицы", hint: "сотрудники, статусы, обновления", icon: "📊" },
+            { value: "Сроки", title: "Сроки и напоминания", hint: "испытательные, медкнижки, обучение", icon: "🔔" },
+            { value: "Кандидаты", title: "Кандидаты и найм", hint: "отклики, этапы, статусы", icon: "🧲" },
+            { value: "Воинский учёт", title: "Воинский учёт", hint: "реестры, сроки, контроль данных", icon: "🪖" }
+          ]
+        },
+        {
+          id: "where",
+          label: "Шаг 3 из 6",
+          title: "Где сейчас ведёте кадровые процессы?",
+          subtitle: "Это нужно, чтобы подобрать простой формат автоматизации.",
+          options: [
+            { value: "Excel / Google Sheets", title: "Excel / Google Sheets", hint: "таблицы, списки, статусы", icon: "🟩" },
+            { value: "1С ЗУП", title: "1С ЗУП", hint: "данные сотрудников и кадровые операции", icon: "🟨" },
+            { value: "Почта / мессенджеры", title: "Почта / мессенджеры", hint: "заявки и согласования в переписках", icon: "💬" },
+            { value: "Бумага", title: "Бумажные документы", hint: "заявления, подписи, папки", icon: "📚" },
+            { value: "CRM / HR-система", title: "CRM / HR-система", hint: "есть система, но не хватает порядка", icon: "🧰" },
+            { value: "Везде понемногу", title: "Везде понемногу", hint: "данные разбросаны", icon: "🧩" }
+          ]
+        },
+        {
+          id: "volume",
+          label: "Шаг 4 из 6",
+          title: "Сколько сотрудников в компании?",
+          subtitle: "По этому видно, насколько быстро окупится автоматизация.",
+          options: [
+            { value: "До 10", title: "До 10", hint: "можно начать с простой таблицы", icon: "👤" },
+            { value: "10–30", title: "10–30", hint: "уже полезны заявки и напоминания", icon: "👥" },
+            { value: "30–100", title: "30–100", hint: "нужен порядок в процессах", icon: "🏢" },
+            { value: "100–300", title: "100–300", hint: "автоматизация почти обязательна", icon: "🏬" },
+            { value: "Больше 300", title: "Больше 300", hint: "нужны маршруты и контроль статусов", icon: "🏭" },
+            { value: "Не знаю точно", title: "Не знаю точно", hint: "уточним позже", icon: "🤔" }
+          ]
+        },
+        {
+          id: "result",
+          label: "Шаг 5 из 6",
+          title: "Что хотите получить на выходе?",
+          subtitle: "Выберите первый полезный результат.",
+          options: [
+            { value: "Заявки сотрудников", title: "Заявки сотрудников", hint: "отпуск, справка, документ через форму", icon: "📩" },
+            { value: "Генератор документов", title: "Генератор документов", hint: "приказы и заявления по шаблону", icon: "📝" },
+            { value: "Напоминания", title: "Напоминания по срокам", hint: "испытательные, медкнижки, обучение", icon: "🔔" },
+            { value: "Единая таблица", title: "Единая таблица статусов", hint: "сотрудники, документы, контроль", icon: "📋" },
+            { value: "Дашборд руководителю", title: "Дашборд руководителю", hint: "видно, что в работе и где задержки", icon: "📈" },
+            { value: "План автоматизации", title: "Сначала нужен план", hint: "понять, что делать первым", icon: "🗺️" }
+          ]
+        },
+        {
+          id: "urgency",
+          label: "Шаг 6 из 6",
+          title: "Когда хотите решить задачу?",
+          subtitle: "Это поможет отделить горячую задачу от идеи на будущее.",
+          options: [
+            { value: "Срочно", title: "Срочно", hint: "горит сейчас", icon: "🚀" },
+            { value: "В течение недели", title: "В течение недели", hint: "нужно быстро запустить", icon: "⚡" },
+            { value: "В течение месяца", title: "В течение месяца", hint: "можно спокойно внедрить", icon: "📆" },
+            { value: "Пока изучаем", title: "Пока изучаем", hint: "хотим понять возможности", icon: "👀" }
+          ]
+        }
+      ],
+      unknown: [
+        {
+          id: "pain",
+          label: "Шаг 2 из 6",
+          title: "Где больше всего хаоса?",
+          subtitle: "Выберите то, что ближе всего к вашей ситуации.",
+          options: [
+            { value: "Excel", title: "Excel и таблицы", hint: "много файлов и ручных правок", icon: "📊" },
+            { value: "Документы", title: "Документы", hint: "шаблоны, копирование, подписи", icon: "📄" },
+            { value: "Сроки", title: "Сроки и напоминания", hint: "контроль оплат, отпусков, документов", icon: "🔔" },
+            { value: "Повторный ввод", title: "Повторный ввод данных", hint: "одно и то же в разные системы", icon: "⌨️" },
+            { value: "Отчёты", title: "Отчёты", hint: "данные надо собирать вручную", icon: "📈" },
+            { value: "Не понимаю", title: "Не понимаю, с чего начать", hint: "нужна быстрая диагностика", icon: "🔎" }
+          ]
+        },
+        {
+          id: "where",
+          label: "Шаг 3 из 6",
+          title: "Какая зона ближе к задаче?",
+          subtitle: "Это поможет выбрать ветку решения.",
+          options: [
+            { value: "Бухгалтерия", title: "Больше бухгалтерия", hint: "документы, платежи, сверки, отчёты", icon: "🧾" },
+            { value: "Кадры / HR", title: "Больше кадры / HR", hint: "сотрудники, заявления, отпуска, сроки", icon: "👥" },
+            { value: "Оба направления", title: "И бухгалтерия, и кадры", hint: "процессы пересекаются", icon: "🧩" },
+            { value: "Административные задачи", title: "Административные задачи", hint: "файлы, заявки, уведомления, порядок", icon: "🗂️" }
+          ]
+        },
+        {
+          id: "volume",
+          label: "Шаг 4 из 6",
+          title: "Сколько времени теряется на ручных действиях?",
+          subtitle: "Примерно. Точные цифры не нужны.",
+          options: [
+            { value: "До 2 часов в неделю", title: "До 2 часов в неделю", hint: "можно сделать лёгкое улучшение", icon: "🕐" },
+            { value: "2–5 часов в неделю", title: "2–5 часов в неделю", hint: "уже есть смысл автоматизировать", icon: "⏳" },
+            { value: "5–10 часов в неделю", title: "5–10 часов в неделю", hint: "приоритетная задача", icon: "🔥" },
+            { value: "Больше 10 часов", title: "Больше 10 часов", hint: "сильная потеря времени", icon: "🚨" },
+            { value: "Не считали", title: "Не считали", hint: "разберём процесс по шагам", icon: "🤔" }
+          ]
+        },
+        {
+          id: "result",
+          label: "Шаг 5 из 6",
+          title: "Что хотите получить первым?",
+          subtitle: "Выберите результат, который будет полезен уже сейчас.",
+          options: [
+            { value: "План автоматизации", title: "План автоматизации", hint: "что делать первым и почему", icon: "🗺️" },
+            { value: "Автоматическая таблица", title: "Автоматическая таблица", hint: "порядок, статусы, расчёты", icon: "📋" },
+            { value: "Генератор документов", title: "Генератор документов", hint: "шаблоны без ручного копирования", icon: "📝" },
+            { value: "Напоминания", title: "Напоминания", hint: "чтобы сроки не терялись", icon: "🔔" },
+            { value: "Отчёт", title: "Автоматический отчёт", hint: "данные собираются в итог", icon: "📈" }
+          ]
+        },
+        {
+          id: "urgency",
+          label: "Шаг 6 из 6",
+          title: "Когда хотите решить задачу?",
+          subtitle: "Это поможет отделить горячую задачу от идеи на будущее.",
+          options: [
+            { value: "Срочно", title: "Срочно", hint: "горит сейчас", icon: "🚀" },
+            { value: "В течение недели", title: "В течение недели", hint: "нужно быстро запустить", icon: "⚡" },
+            { value: "В течение месяца", title: "В течение месяца", hint: "можно спокойно внедрить", icon: "📆" },
+            { value: "Пока изучаем", title: "Пока изучаем", hint: "хотим понять возможности", icon: "👀" }
+          ]
+        }
+      ]
+    };
+
+    const state = {
+      flow: [],
+      index: 0,
+      answers: {},
+      lead: {}
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    const screens = {
+      start: $("startScreen"),
+      question: $("questionScreen"),
+      contact: $("contactScreen"),
+      success: $("successScreen")
+    };
+
+    const ui = {
+      stepText: $("stepText"),
+      percentText: $("percentText"),
+      progressBar: $("progressBar"),
+      questionLabel: $("questionLabel"),
+      questionTitle: $("questionTitle"),
+      questionSubtitle: $("questionSubtitle"),
+      options: $("options"),
+      backBtn: $("backBtn"),
+      backFromContactBtn: $("backFromContactBtn"),
+      preResult: $("preResult"),
+      leadForm: $("leadForm"),
+      formError: $("formError"),
+      resultBox: $("resultBox"),
+      finalRecommendation: $("finalRecommendation"),
+      tgBtn: $("tgBtn"),
+      copyBtn: $("copyBtn"),
+      restartBtn: $("restartBtn")
+    };
+
+    function showScreen(name) {
+      Object.values(screens).forEach(screen => screen.classList.remove("active"));
+      screens[name].classList.add("active");
+    }
+
+    function setProgress() {
+      if (!state.flow.length) {
+        ui.stepText.textContent = "Старт";
+        ui.percentText.textContent = "0%";
+        ui.progressBar.style.width = "0%";
+        return;
+      }
+
+      const totalSteps = state.flow.length + 1; // + контактный шаг
+      const currentStep = Math.min(state.index + 1, totalSteps);
+      const percent = Math.round((currentStep / totalSteps) * 100);
+      ui.stepText.textContent = state.flow[state.index]?.label || "Финал";
+      ui.percentText.textContent = `${percent}%`;
+      ui.progressBar.style.width = `${percent}%`;
+    }
+
+    function setContactProgress() {
+      const percent = 92;
+      ui.stepText.textContent = "Финальный шаг";
+      ui.percentText.textContent = `${percent}%`;
+      ui.progressBar.style.width = `${percent}%`;
+    }
+
+    function setSuccessProgress() {
+      ui.stepText.textContent = "Готово";
+      ui.percentText.textContent = "100%";
+      ui.progressBar.style.width = "100%";
+    }
+
+    function startQuiz() {
+      state.flow = [...flows.common];
+      state.index = 0;
+      state.answers = {};
+      state.lead = {};
+      showScreen("question");
+      renderQuestion();
+      track("quiz_start");
+    }
+
+    function getBranch(direction) {
+      if (direction === "Бухгалтерия") return flows.accounting;
+      if (direction === "Кадры / HR") return flows.hr;
+      return flows.unknown;
+    }
+
+    function currentQuestion() {
+      return state.flow[state.index];
+    }
+
+    function renderQuestion() {
+      const q = currentQuestion();
+      ui.questionLabel.textContent = q.label;
+      ui.questionTitle.textContent = q.title;
+      ui.questionSubtitle.textContent = q.subtitle || "";
+      ui.options.innerHTML = "";
+      ui.backBtn.disabled = state.index === 0;
+
+      q.options.forEach(option => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "option";
+        button.innerHTML = `
+          <span class="option-emoji" aria-hidden="true">${option.icon}</span>
+          <span>
+            <span class="option-title">${option.title}</span>
+            <span class="option-hint">${option.hint}</span>
+          </span>
+        `;
+        button.addEventListener("click", () => chooseOption(q, option, button));
+        ui.options.appendChild(button);
+      });
+
+      setProgress();
+      track("quiz_step", { step: state.index + 1, question: q.id });
+    }
+
+    function chooseOption(question, option, button) {
+      state.answers[question.id] = option.value;
+      Array.from(ui.options.children).forEach(item => item.classList.remove("selected"));
+      button.classList.add("selected");
+
+      if (question.id === "direction") {
+        state.flow = [...flows.common, ...getBranch(option.value)];
+        if (option.value === "Бухгалтерия") track("quiz_branch_accounting");
+        if (option.value === "Кадры / HR") track("quiz_branch_hr");
+        if (option.value === "Не знаю") track("quiz_branch_unknown");
+      }
+
+      window.setTimeout(() => {
+        if (state.index < state.flow.length - 1) {
+          state.index += 1;
+          renderQuestion();
+        } else {
+          renderContact();
+        }
+      }, 260);
+    }
+
+    function goBack() {
+      if (state.index > 0) {
+        state.index -= 1;
+        renderQuestion();
+      }
+    }
+
+    function renderContact() {
+      ui.preResult.innerHTML = buildPreResultHTML();
+      showScreen("contact");
+      setContactProgress();
+      track("quiz_contact_step");
+    }
+
+    function buildRecommendation() {
+      const direction = state.answers.direction;
+      const pain = state.answers.pain || "ручной процесс";
+      const result = state.answers.result || "план автоматизации";
+      const urgency = state.answers.urgency || "не указано";
+      const volume = state.answers.volume || "не указано";
+      const where = state.answers.where || "не указано";
+
+      let service = "Экспресс-разбор процесса и план автоматизации";
+      let firstStep = "разобрать процесс по шагам и выбрать самый простой способ убрать ручные действия";
+
+      if (direction === "Бухгалтерия") {
+        if (pain.includes("Сверки") || result.includes("сверка")) {
+          service = "Автоматическая сверка файлов и реестров";
+          firstStep = "взять 2–3 примера файлов и собрать правило сверки: что сравниваем, где ошибка, какой итог нужен";
+        } else if (pain.includes("Документы") || result.includes("документ")) {
+          service = "Генератор бухгалтерских документов по шаблону";
+          firstStep = "определить шаблоны документов и поля, которые можно подставлять автоматически";
+        } else if (pain.includes("Оплаты") || result.includes("Напоминания")) {
+          service = "Контроль оплат, сроков и дебиторки";
+          firstStep = "собрать список статусов, дат и ответственных, чтобы настроить напоминания";
+        } else if (pain.includes("Отчёты") || result.includes("отчёт")) {
+          service = "Автоматический отчёт из таблиц, выгрузок и файлов";
+          firstStep = "понять источники данных и собрать единый итоговый формат отчёта";
+        } else {
+          service = "Автоматизация ручного ввода и повторяющихся операций";
+          firstStep = "найти, какие данные повторно переносятся вручную, и заменить это таблицей, скриптом или формой";
+        }
+      }
+
+      if (direction === "Кадры / HR") {
+        if (pain.includes("Отпуска") || result.includes("Заявки")) {
+          service = "Форма заявок сотрудников и учёт отпусков";
+          firstStep = "описать маршрут заявки: сотрудник → руководитель → кадровик → статус";
+        } else if (pain.includes("Приказы") || result.includes("документ")) {
+          service = "Генератор кадровых документов по шаблону";
+          firstStep = "собрать шаблоны приказов/заявлений и список полей для автоподстановки";
+        } else if (pain.includes("Сроки") || result.includes("Напоминания")) {
+          service = "Напоминания по кадровым срокам";
+          firstStep = "собрать даты, статусы и ответственных, чтобы настроить уведомления";
+        } else if (pain.includes("Кандидаты")) {
+          service = "Простая база кандидатов и статусов найма";
+          firstStep = "описать этапы подбора и какие статусы должен видеть HR/руководитель";
+        } else if (pain.includes("Воинский")) {
+          service = "Реестр и контроль данных для воинского учёта";
+          firstStep = "собрать поля реестра, сроки обновления и напоминания без юридических консультаций";
+        } else {
+          service = "Кадровая мини-система: сотрудники, статусы, документы, сроки";
+          firstStep = "выбрать один процесс, который чаще всего повторяется и забирает время";
+        }
+      }
+
+      if (direction === "Не знаю") {
+        service = "Карта ручных процессов и быстрый план автоматизации";
+        firstStep = "разобрать, где больше всего повторных действий: Excel, документы, сроки или отчёты";
+      }
+
+      let priority = "средний";
+      if (["Срочно", "В течение недели"].includes(urgency) || ["5–10 часов в неделю", "Больше 10 часов"].includes(volume) || ["100–300", "Больше 300"].includes(volume)) {
+        priority = "высокий";
+      }
+
+      return { direction, pain, where, volume, result, urgency, service, firstStep, priority };
+    }
+
+    function buildPreResultHTML() {
+      const r = buildRecommendation();
+      return `
+        <strong>Предварительно подходит: ${escapeHTML(r.service)}</strong>
+        <p>Приоритет: <b>${escapeHTML(r.priority)}</b>. Полный разбор лучше отправить в личное сообщение: что делать первым, какие данные нужны и какой простой формат решения выбрать.</p>
+      `;
+    }
+
+    function buildFinalRecommendationHTML() {
+      const r = buildRecommendation();
+      return `
+        <strong>Рекомендация: ${escapeHTML(r.service)}</strong>
+        <p>Первый шаг: ${escapeHTML(r.firstStep)}.</p>
+      `;
+    }
+
+    function collectLead() {
+      return {
+        phone: $("phone").value.trim(),
+        name: $("name").value.trim(),
+        consent: $("consent").checked
+      };
+    }
+
+    function formatApplication() {
+      const r = buildRecommendation();
+      const lines = [];
+      lines.push("Новая заявка с квиза автоматизации");
+      lines.push("");
+      lines.push("Контакт:");
+      lines.push(`Телефон или Telegram: ${state.lead.phone || "—"}`);
+      lines.push(`Имя: ${state.lead.name || "—"}`);
+      lines.push("");
+      lines.push("Ответы:");
+      lines.push(`Направление: ${r.direction || "—"}`);
+      lines.push(`Главная боль: ${r.pain || "—"}`);
+      lines.push(`Где работает: ${r.where || "—"}`);
+      lines.push(`Объём / масштаб: ${r.volume || "—"}`);
+      lines.push(`Желаемый результат: ${r.result || "—"}`);
+      lines.push(`Срочность: ${r.urgency || "—"}`);
+      lines.push("");
+      lines.push("Предварительная рекомендация:");
+      lines.push(`Услуга: ${r.service}`);
+      lines.push(`Приоритет: ${r.priority}`);
+      lines.push(`Первый шаг: ${r.firstStep}`);
+      lines.push("");
+      lines.push(`Дата: ${new Date().toLocaleString("ru-RU")}`);
+      return lines.join("\n");
+    }
+
+    async function submitLead(event) {
+      event.preventDefault();
+      ui.formError.style.display = "none";
+      state.lead = collectLead();
+
+      if (!state.lead.phone || !state.lead.consent) {
+        ui.formError.style.display = "block";
+        return;
+      }
+
+      const payload = {
+        source: "quiz_buh_hr_conversion",
+        lead: state.lead,
+        answers: state.answers,
+        recommendation: buildRecommendation(),
+        createdAt: new Date().toISOString(),
+        url: window.location.href
+      };
+
+      if (WEBHOOK_URL) {
+        try {
+          await fetch(WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+        } catch (error) {
+          console.warn("Webhook error", error);
+        }
+      }
+
+      const text = formatApplication();
+      ui.resultBox.textContent = text;
+      ui.finalRecommendation.innerHTML = buildFinalRecommendationHTML();
+      showScreen("success");
+      setSuccessProgress();
+      track("quiz_submit", { direction: state.answers.direction, urgency: state.answers.urgency });
+    }
+
+    function restart() {
+      $("phone").value = "";
+      $("name").value = "";
+      $("consent").checked = false;
+      startQuiz();
+    }
+
+    function escapeHTML(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function track(eventName, params = {}) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: eventName, ...params });
+      window.dispatchEvent(new CustomEvent(eventName, { detail: params }));
+
+      if (typeof ym === "function" && METRIKA_ID) {
+        ym(METRIKA_ID, "reachGoal", eventName, params);
+      }
+    }
+
+    $("startBtn").addEventListener("click", startQuiz);
+    ui.backBtn.addEventListener("click", goBack);
+    ui.backFromContactBtn.addEventListener("click", () => {
+      showScreen("question");
+      setProgress();
+    });
+    ui.leadForm.addEventListener("submit", submitLead);
+    ui.copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(ui.resultBox.textContent || "");
+        ui.copyBtn.textContent = "Скопировано";
+        window.setTimeout(() => ui.copyBtn.textContent = "Скопировать заявку", 1600);
+      } catch (error) {
+        console.warn("Copy error", error);
+      }
+    });
+    ui.restartBtn.addEventListener("click", restart);
+
+    setProgress();
+  </script>
+</body>
+</html>
