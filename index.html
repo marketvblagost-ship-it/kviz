@@ -1,1413 +1,776 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <!-- BotFAQtor antibot -->
-  <script type="text/javascript">window._ab_id_=171389</script>
-  <script src="https://cdn.botfaqtor.ru/one.js"></script>
-  <!-- /BotFAQtor antibot -->
-
-  <!-- Yandex.Metrika counter -->
-  <script type="text/javascript">
-      (function(m,e,t,r,i,k,a){
-          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109038656', 'ym');
-
-      ym(109038656, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109038656" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-  <!-- /Yandex.Metrika counter -->
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Квиз автоматизации бухгалтерии и HR</title>
-  <meta name="description" content="Бесплатная онлайн-диагностика ручных процессов в бухгалтерии и кадрах: Excel, документы, отчёты, уведомления и повторяющиеся задачи." />
+  <meta name="description" content="Автоматизация Wildberries, Ozon и Яндекс Маркета: отчёты, чистая прибыль, остатки, цены, реклама, поставки и управление товарами в одном дашборде." />
+  <title>Автоматизация маркетплейсов — прибыль, отчёты и управление без Excel</title>
   <style>
-    :root {
-      --bg1: #0f172a;
-      --bg2: #312e81;
-      --bg3: #0ea5e9;
-      --card: rgba(255,255,255,.94);
-      --text: #111827;
-      --muted: #64748b;
-      --line: #e2e8f0;
-      --accent: #ff5a1f;
-      --accent2: #2563eb;
-      --accent3: #14b8a6;
-      --success: #16a34a;
-      --danger: #dc2626;
-      --radius: 28px;
-      --shadow: 0 30px 90px rgba(2, 6, 23, .26);
+    :root{
+      --bg:#070816;
+      --bg2:#0d1028;
+      --white:#ffffff;
+      --muted:#aeb5d6;
+      --line:rgba(255,255,255,.13);
+      --glass:rgba(255,255,255,.08);
+      --glass-strong:rgba(255,255,255,.13);
+      --pink:#ff2bd6;
+      --orange:#ff8a00;
+      --yellow:#ffe600;
+      --cyan:#15e6ff;
+      --green:#5dff9c;
+      --violet:#7c4dff;
+      --danger:#ff4d67;
+      --radius:28px;
+      --shadow:0 24px 80px rgba(0,0,0,.38);
     }
 
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, Arial, sans-serif;
-      color: var(--text);
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      min-height:100vh;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--white);
       background:
-        radial-gradient(circle at 8% 8%, rgba(255, 90, 31, .46), transparent 26%),
-        radial-gradient(circle at 92% 20%, rgba(20, 184, 166, .40), transparent 28%),
-        radial-gradient(circle at 50% 90%, rgba(37, 99, 235, .42), transparent 34%),
-        linear-gradient(135deg, var(--bg1), var(--bg2) 52%, #075985);
+        radial-gradient(circle at 12% 8%, rgba(255,43,214,.36), transparent 32%),
+        radial-gradient(circle at 88% 12%, rgba(21,230,255,.33), transparent 30%),
+        radial-gradient(circle at 50% 58%, rgba(255,138,0,.2), transparent 28%),
+        linear-gradient(180deg, #060716 0%, #0b0e26 52%, #070816 100%);
+      overflow-x:hidden;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.08;
       background-image:
-        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,.7), transparent 90%);
-      pointer-events: none;
+        linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px);
+      background-size:42px 42px;
+      mask-image:linear-gradient(to bottom, black, transparent 80%);
+      z-index:0;
     }
 
-    .page {
-      width: 100%;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 28px 14px;
-      position: relative;
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    .page{position:relative;z-index:1}
+    .container{width:min(1160px, calc(100% - 36px));margin:0 auto}
+
+    .noise{
+      position:fixed;
+      inset:-50%;
+      z-index:0;
+      pointer-events:none;
+      background:repeating-radial-gradient(circle at 40% 50%, rgba(255,255,255,.05) 0 1px, transparent 1px 8px);
+      opacity:.2;
+      animation:floatNoise 18s linear infinite;
+    }
+    @keyframes floatNoise{to{transform:translate3d(40px, 30px, 0)}}
+
+    .nav{
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(18px);
+      background:linear-gradient(180deg, rgba(7,8,22,.86), rgba(7,8,22,.48));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav__inner{
+      height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .logo__mark{
+      width:44px;height:44px;border-radius:15px;
+      display:grid;place-items:center;
+      background:conic-gradient(from 220deg, var(--pink), var(--orange), var(--yellow), var(--cyan), var(--violet), var(--pink));
+      box-shadow:0 0 34px rgba(255,43,214,.35);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo__mark::after{
+      content:"";position:absolute;inset:3px;border-radius:12px;background:#10122c;
+    }
+    .logo__mark span{position:relative;z-index:1;font-size:20px}
+    .nav__links{display:flex;align-items:center;gap:22px;color:#d6dcff;font-size:14px}
+    .nav__links a{opacity:.86;transition:.2s ease}
+    .nav__links a:hover{opacity:1;color:var(--cyan)}
+    .nav__cta{
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:800;
+      color:#10122c;
+      background:linear-gradient(135deg, var(--yellow), var(--orange), var(--pink));
+      box-shadow:0 12px 36px rgba(255,138,0,.22);
+      white-space:nowrap;
     }
 
-    .quiz-shell {
-      width: 100%;
-      max-width: 1080px;
-      display: grid;
-      grid-template-columns: .92fr 1.08fr;
-      gap: 20px;
-      align-items: stretch;
+    .hero{padding:70px 0 54px}
+    .hero__grid{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:42px;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:9px 14px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:999px;
+      color:#e7ebff;
+      background:rgba(255,255,255,.07);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+      margin-bottom:22px;
+      font-weight:750;
+      font-size:14px;
+    }
+    .eyebrow i{
+      width:10px;height:10px;border-radius:50%;background:var(--green);
+      box-shadow:0 0 18px var(--green);
+    }
+    h1{
+      font-size:clamp(42px, 6vw, 76px);
+      line-height:.92;
+      letter-spacing:-3.6px;
+      font-weight:950;
+      margin-bottom:22px;
+    }
+    .gradient-text{
+      background:linear-gradient(100deg, #fff 0%, #fff 28%, var(--cyan) 45%, var(--yellow) 65%, var(--pink) 90%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .hero__lead{
+      color:#d8ddff;
+      font-size:clamp(18px, 2vw, 22px);
+      line-height:1.55;
+      max-width:660px;
+      margin-bottom:30px;
+    }
+    .hero__actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:28px}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:17px 24px;
+      border-radius:999px;
+      border:1px solid transparent;
+      cursor:pointer;
+      font-weight:900;
+      transition:.22s ease;
+    }
+    .btn--primary{
+      color:#10122c;
+      background:linear-gradient(135deg, var(--yellow), var(--orange) 48%, var(--pink));
+      box-shadow:0 18px 46px rgba(255,43,214,.28), 0 10px 30px rgba(255,138,0,.24);
+    }
+    .btn--primary:hover{transform:translateY(-2px);box-shadow:0 24px 58px rgba(255,43,214,.34), 0 14px 38px rgba(255,138,0,.27)}
+    .btn--ghost{
+      color:#ecf0ff;
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.15);
+    }
+    .btn--ghost:hover{background:rgba(255,255,255,.13);transform:translateY(-2px)}
+    .hero__chips{display:flex;gap:10px;flex-wrap:wrap}
+    .trust-line{
+      margin-top:18px;
+      padding:14px 16px;
+      border-radius:20px;
+      color:#eaf0ff;
+      background:rgba(255,255,255,.075);
+      border:1px solid rgba(255,255,255,.12);
+      line-height:1.45;
+      font-weight:780;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .trust-line span{color:var(--cyan);font-weight:950}
+    .chip{
+      padding:9px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:#dbe1ff;
+      font-weight:760;
+      font-size:13px;
     }
 
-    .hero, .quiz {
-      border: 1px solid rgba(255,255,255,.24);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
+    .dashboard-wrap{position:relative}
+    .orb{
+      position:absolute;
+      border-radius:999px;
+      filter:blur(2px);
+      opacity:.8;
+      animation:levitate 7s ease-in-out infinite;
     }
-
-    .hero {
-      overflow: hidden;
-      min-height: 690px;
-      padding: 30px;
-      color: #fff;
+    .orb--one{width:110px;height:110px;background:radial-gradient(circle, var(--pink), transparent 70%);top:-34px;right:30px}
+    .orb--two{width:80px;height:80px;background:radial-gradient(circle, var(--cyan), transparent 70%);bottom:20px;left:-12px;animation-delay:-2s}
+    @keyframes levitate{50%{transform:translateY(-18px) translateX(8px)}}
+    .dashboard{
+      position:relative;
+      padding:20px;
+      border-radius:34px;
+      border:1px solid rgba(255,255,255,.16);
+      background:linear-gradient(160deg, rgba(255,255,255,.15), rgba(255,255,255,.06));
+      box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.18);
+      backdrop-filter:blur(24px);
+      overflow:hidden;
+    }
+    .dashboard::before{
+      content:"";position:absolute;inset:-70px -60px auto auto;width:220px;height:220px;border-radius:50%;
+      background:radial-gradient(circle, rgba(255,230,0,.34), transparent 68%);
+    }
+    .screen{
+      position:relative;
+      border-radius:24px;
+      padding:18px;
+      background:linear-gradient(180deg, rgba(8,10,31,.92), rgba(12,16,45,.86));
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .screen__top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .traffic{display:flex;gap:7px}.traffic span{width:10px;height:10px;border-radius:50%;background:var(--danger)}.traffic span:nth-child(2){background:var(--yellow)}.traffic span:nth-child(3){background:var(--green)}
+    .screen__label{font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .profit-card{
+      padding:20px;
+      border-radius:22px;
       background:
-        linear-gradient(180deg, rgba(15,23,42,.78), rgba(15,23,42,.56)),
-        radial-gradient(circle at 20% 10%, rgba(255,255,255,.18), transparent 24%);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
+        radial-gradient(circle at 92% 10%, rgba(21,230,255,.38), transparent 38%),
+        linear-gradient(135deg, rgba(255,43,214,.24), rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.16);
+      margin-bottom:14px;
     }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      right: -80px;
-      bottom: -70px;
-      background: radial-gradient(circle, rgba(255,255,255,.20), rgba(255,255,255,0));
-      pointer-events: none;
+    .profit-card small{display:block;color:#d7dcff;font-weight:800;margin-bottom:6px}
+    .profit-card strong{font-size:42px;letter-spacing:-1.6px}
+    .profit-card em{font-style:normal;color:var(--green);font-weight:900;margin-left:8px}
+    .bars{display:grid;gap:10px;margin:18px 0}
+    .bar{height:12px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+    .bar span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg, var(--cyan), var(--green))}
+    .bar:nth-child(2) span{background:linear-gradient(90deg, var(--yellow), var(--orange));width:68%!important}
+    .bar:nth-child(3) span{background:linear-gradient(90deg, var(--pink), var(--violet));width:48%!important}
+    .mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .mini{
+      padding:13px;
+      border-radius:17px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
     }
-
-    .kicker {
-      width: max-content;
-      max-width: 100%;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.14);
-      padding: 9px 13px;
-      font-size: 13px;
-      color: rgba(255,255,255,.92);
-      border: 1px solid rgba(255,255,255,.16);
+    .mini span{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.mini b{font-size:18px}
+    .flow{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:9px;
+      margin-top:12px;
     }
-
-    .hero h1 {
-      margin: 22px 0 14px;
-      font-size: clamp(32px, 4vw, 58px);
-      line-height: .98;
-      letter-spacing: -.055em;
+    .flow div{
+      min-height:78px;
+      padding:12px 10px;
+      border-radius:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.11);
+      display:flex;flex-direction:column;justify-content:space-between;
+      color:#eef1ff;
+      font-weight:850;
+      font-size:13px;
     }
+    .flow small{color:var(--muted);font-weight:700}
 
-    .hero p {
-      margin: 0;
-      color: rgba(255,255,255,.78);
-      font-size: 17px;
-      line-height: 1.55;
-      max-width: 560px;
+    section{padding:54px 0}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:24px}
+    .kicker{
+      color:var(--cyan);
+      font-weight:950;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      font-size:12px;
+      margin-bottom:10px;
     }
+    h2{font-size:clamp(30px,4vw,50px);line-height:1;letter-spacing:-2px;font-weight:950;max-width:760px}
+    .section-note{max-width:390px;color:#c6ccec;line-height:1.55;font-weight:650}
 
-    .hero-points {
-      display: grid;
-      gap: 12px;
-      margin-top: 24px;
+    .pain-card{
+      position:relative;
+      overflow:hidden;
+      border-radius:var(--radius);
+      padding:30px;
+      background:linear-gradient(135deg, rgba(255,255,255,.13), rgba(255,255,255,.06));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
     }
-
-    .point {
-      display: grid;
-      grid-template-columns: 38px 1fr;
-      gap: 12px;
-      align-items: center;
-      padding: 12px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.12);
+    .pain-card::after{
+      content:"";position:absolute;right:-50px;top:-60px;width:240px;height:240px;border-radius:50%;
+      background:radial-gradient(circle, rgba(255,43,214,.34), transparent 70%);
     }
-
-    .point-icon {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border-radius: 14px;
-      background: rgba(255,255,255,.14);
-      font-size: 20px;
+    .pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;position:relative;z-index:1}
+    .pain-list{display:grid;gap:13px}
+    .pain-item{
+      display:flex;gap:13px;align-items:flex-start;
+      padding:15px;
+      border-radius:18px;
+      background:rgba(7,8,22,.42);
+      border:1px solid rgba(255,255,255,.1);
+      color:#dfe5ff;
+      line-height:1.45;
+      font-weight:680;
     }
-
-    .point strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 3px;
-    }
-
-    .point span {
-      display: block;
-      color: rgba(255,255,255,.70);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-
-    .mini-note {
-      position: relative;
-      margin-top: 28px;
-      padding: 18px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.14);
-      color: rgba(255,255,255,.82);
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .quiz {
-      background: var(--card);
-      overflow: hidden;
-      min-height: 690px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .quiz-top {
-      padding: 24px 26px 18px;
-      border-bottom: 1px solid rgba(226,232,240,.85);
-      background: rgba(255,255,255,.70);
-    }
-
-    .progress-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 12px;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .progress-track {
-      height: 10px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: #e5e7eb;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
-      transition: width .32s ease;
-    }
-
-    .quiz-body {
-      padding: 30px 28px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .screen {
-      display: none;
-      flex: 1;
-      animation: fade .22s ease;
-    }
-
-    .screen.active {
-      display: flex;
-      flex-direction: column;
-    }
-
-    @keyframes fade {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .question-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      width: max-content;
-      max-width: 100%;
-      border-radius: 999px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: clamp(26px, 3vw, 40px);
-      line-height: 1.08;
-      letter-spacing: -.04em;
-    }
-
-    .subtitle {
-      margin: 12px 0 22px;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.55;
-    }
-
-    .options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 6px;
-    }
-
-    .option {
-      width: 100%;
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 20px;
-      padding: 16px;
-      min-height: 94px;
-      cursor: pointer;
-      text-align: left;
-      display: grid;
-      grid-template-columns: 42px 1fr;
-      gap: 12px;
-      align-items: center;
-      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
-      font-family: inherit;
-      color: var(--text);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .option::after {
-      content: "→";
-      position: absolute;
-      right: 14px;
-      top: 12px;
-      color: rgba(100,116,139,.45);
-      font-weight: 900;
-      transition: transform .18s ease, color .18s ease;
-    }
-
-    .option:hover {
-      transform: translateY(-2px);
-      border-color: rgba(37,99,235,.42);
-      box-shadow: 0 14px 35px rgba(15,23,42,.09);
-      background: linear-gradient(180deg, #fff, #f8fbff);
-    }
-
-    .option:hover::after {
-      transform: translateX(3px);
-      color: var(--accent2);
-    }
-
-    .option.selected {
-      border-color: var(--accent2);
-      background: #eff6ff;
-      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
-    }
-
-    .option-emoji {
-      width: 42px;
-      height: 42px;
-      border-radius: 15px;
-      display: grid;
-      place-items: center;
-      font-size: 22px;
-      background: linear-gradient(135deg, #fff7ed, #eff6ff);
-      border: 1px solid rgba(226,232,240,.9);
-    }
-
-    .option-title {
-      display: block;
-      font-size: 15px;
-      font-weight: 900;
-      line-height: 1.18;
-      padding-right: 18px;
-    }
-
-    .option-hint {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-      padding-right: 14px;
-    }
-
-    .bottom-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: auto;
-      padding-top: 22px;
-    }
-
-    .back {
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      padding: 10px 0;
-      font-family: inherit;
-    }
-
-    .back:hover { color: var(--text); }
-    .back:disabled { visibility: hidden; }
-
-    .hint {
-      color: var(--muted);
-      font-size: 13px;
-      text-align: right;
-    }
-
-    .start-card {
-      border-radius: 24px;
+    .pain-item span{width:28px;height:28px;flex:0 0 28px;border-radius:10px;display:grid;place-items:center;background:rgba(255,77,103,.18);color:#ff8a9d;font-weight:950}
+    .result-box{
+      padding:24px;
+      border-radius:24px;
       background:
-        radial-gradient(circle at 10% 0%, rgba(255,90,31,.16), transparent 34%),
-        linear-gradient(180deg, #ffffff, #f8fafc);
-      border: 1px solid var(--line);
-      padding: 20px;
-      margin-top: 10px;
+        radial-gradient(circle at 85% 20%, rgba(93,255,156,.26), transparent 38%),
+        rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.13);
     }
+    .result-box h3{font-size:28px;line-height:1.06;letter-spacing:-1px;margin-bottom:16px}
+    .result-box p{color:#d8deff;line-height:1.55;margin-bottom:18px}
+    .ticks{display:grid;gap:10px}.ticks li{list-style:none;color:#eef1ff;font-weight:780}.ticks li::before{content:"✓";color:var(--green);font-weight:950;margin-right:9px}
 
-    .start-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 18px 0 0;
+    .automation-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .auto-card{
+      min-height:210px;
+      padding:20px;
+      border-radius:24px;
+      background:linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.055));
+      border:1px solid rgba(255,255,255,.13);
+      box-shadow:0 16px 46px rgba(0,0,0,.22);
+      position:relative;
+      overflow:hidden;
+      transition:.22s ease;
     }
+    .auto-card:hover{transform:translateY(-5px);background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.07))}
+    .auto-card::before{content:"";position:absolute;inset:auto -45px -55px auto;width:140px;height:140px;border-radius:50%;opacity:.38;background:radial-gradient(circle, var(--cyan), transparent 70%)}
+    .auto-card:nth-child(2)::before,.auto-card:nth-child(6)::before{background:radial-gradient(circle, var(--pink), transparent 70%)}
+    .auto-card:nth-child(3)::before,.auto-card:nth-child(7)::before{background:radial-gradient(circle, var(--yellow), transparent 70%)}
+    .auto-card:nth-child(4)::before,.auto-card:nth-child(8)::before{background:radial-gradient(circle, var(--green), transparent 70%)}
+    .auto-icon{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;margin-bottom:16px;background:rgba(255,255,255,.11);font-size:23px;border:1px solid rgba(255,255,255,.11)}
+    .auto-card h3{font-size:19px;line-height:1.1;margin-bottom:10px;letter-spacing:-.4px}
+    .auto-card p{color:#cbd2f5;line-height:1.45;font-size:14px;position:relative;z-index:1}
 
-    .stat {
-      padding: 14px;
-      border-radius: 18px;
-      background: #fff;
-      border: 1px solid #e5e7eb;
+    .process{
+      display:grid;
+      grid-template-columns:.92fr 1.08fr;
+      gap:18px;
+      align-items:stretch;
     }
-
-    .stat strong {
-      display: block;
-      font-size: 21px;
-      letter-spacing: -.03em;
-      margin-bottom: 3px;
+    .big-number{
+      border-radius:var(--radius);
+      padding:32px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,230,0,.28), transparent 36%),
+        radial-gradient(circle at 92% 80%, rgba(21,230,255,.24), transparent 32%),
+        linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+      border:1px solid var(--line);
+      min-height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      overflow:hidden;
+      position:relative;
     }
-
-    .stat span {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.3;
-      display: block;
+    .big-number b{font-size:96px;letter-spacing:-6px;line-height:.85;background:linear-gradient(135deg, var(--yellow), var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .big-number h3{font-size:34px;line-height:1;letter-spacing:-1.4px;margin:18px 0 14px}
+    .big-number p{color:#d4daf9;line-height:1.55;font-weight:650}
+    .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .step{
+      padding:22px;
+      border-radius:24px;
+      background:rgba(255,255,255,.085);
+      border:1px solid rgba(255,255,255,.12);
+      min-height:174px;
     }
+    .step span{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:13px;background:linear-gradient(135deg,var(--cyan),var(--violet));font-weight:950;margin-bottom:18px}
+    .step h3{font-size:21px;margin-bottom:9px}.step p{color:#cbd2f5;line-height:1.48;font-size:14px}
 
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: 0;
-      width: 100%;
-      border-radius: 18px;
-      min-height: 58px;
-      padding: 16px 20px;
-      margin-top: 20px;
-      font-size: 17px;
-      font-weight: 950;
-      color: #fff;
-      background: linear-gradient(135deg, var(--accent), #f97316 36%, var(--accent2));
-      box-shadow: 0 18px 38px rgba(249, 115, 22, .30);
-      cursor: pointer;
-      font-family: inherit;
-      text-decoration: none;
-      transition: transform .18s ease, box-shadow .18s ease;
+    .cta-panel{
+      display:grid;
+      grid-template-columns:1fr .82fr;
+      gap:20px;
+      align-items:stretch;
+      padding:26px;
+      border-radius:34px;
+      background:
+        radial-gradient(circle at 8% 10%, rgba(255,43,214,.3), transparent 35%),
+        radial-gradient(circle at 88% 30%, rgba(255,230,0,.28), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.065));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
-
-    .cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 22px 46px rgba(249, 115, 22, .36);
+    .cta-copy{padding:18px 12px 18px 8px}
+    .cta-copy h2{margin-bottom:18px}.cta-copy p{color:#d9deff;font-size:18px;line-height:1.55;max-width:650px;margin-bottom:22px}
+    .price-row{display:flex;flex-wrap:wrap;gap:10px}.price-row span{padding:10px 13px;border-radius:999px;background:rgba(7,8,22,.35);border:1px solid rgba(255,255,255,.11);font-weight:850;color:#edf1ff;font-size:13px}
+    .form{
+      padding:20px;
+      border-radius:28px;
+      background:rgba(7,8,22,.58);
+      border:1px solid rgba(255,255,255,.13);
+      backdrop-filter:blur(20px);
     }
-
-    .pre-result {
-      border-radius: 24px;
-      padding: 18px;
-      background: linear-gradient(135deg, #ecfeff, #eff6ff 55%, #fff7ed);
-      border: 1px solid rgba(37,99,235,.18);
-      margin: 14px 0 18px;
+    .form h3{font-size:25px;letter-spacing:-.8px;margin-bottom:14px}
+    .field{display:grid;gap:7px;margin-bottom:12px}
+    label{font-size:13px;font-weight:850;color:#dce2ff}
+    input,select{
+      width:100%;
+      padding:15px 15px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.13);
+      background:rgba(255,255,255,.08);
+      color:var(--white);
+      outline:none;
+      transition:.2s ease;
     }
-
-    .pre-result strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 16px;
+    select option{color:#10122c;background:#fff}
+    input:focus,select:focus{border-color:var(--cyan);box-shadow:0 0 0 4px rgba(21,230,255,.13)}
+    .form button{width:100%;margin-top:4px}
+    .form-actions{display:grid;gap:10px;margin-top:4px}
+    .form-actions .btn{width:100%;padding:15px 18px}
+    .form small{display:block;color:#aeb5d6;line-height:1.45;margin-top:12px}
+    .success{
+      display:none;
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:rgba(93,255,156,.12);
+      border:1px solid rgba(93,255,156,.26);
+      color:#dfffe9;
+      font-weight:800;
     }
+    .footer{padding:26px 0 38px;color:#9fa8cf;font-size:13px;text-align:center}
 
-    .pre-result p {
-      margin: 0;
-      color: #475569;
-      line-height: 1.45;
-      font-size: 14px;
+    .reveal{opacity:0;transform:translateY(24px);transition:.55s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media (max-width: 980px){
+      .nav__links{display:none}
+      .hero{padding-top:44px}
+      .hero__grid,.pain-grid,.process,.cta-panel{grid-template-columns:1fr}
+      .automation-grid{grid-template-columns:repeat(2,1fr)}
+      .section-head{display:block}.section-note{margin-top:14px}
     }
-
-    .lead-form {
-      margin-top: 8px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 7px;
-      color: #475569;
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    input {
-      width: 100%;
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--text);
-      border-radius: 18px;
-      min-height: 58px;
-      padding: 0 16px;
-      font-size: 17px;
-      outline: 0;
-      transition: border-color .18s ease, box-shadow .18s ease;
-      font-family: inherit;
-    }
-
-    input:focus {
-      border-color: var(--accent2);
-      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
-    }
-
-    .privacy {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .error {
-      display: none;
-      color: var(--danger);
-      font-weight: 900;
-      font-size: 13px;
-    }
-
-    .success-icon {
-      width: 62px;
-      height: 62px;
-      border-radius: 22px;
-      display: grid;
-      place-items: center;
-      color: var(--success);
-      background: rgba(22,163,74,.12);
-      font-size: 34px;
-      font-weight: 950;
-      margin-bottom: 16px;
-    }
-
-    .result-box {
-      margin-top: 18px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: #f8fafc;
-      padding: 16px;
-      color: #334155;
-      font-size: 14px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      max-height: 270px;
-      overflow: auto;
-    }
-
-    .success-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .secondary-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 18px;
-      min-height: 54px;
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--text);
-      font-weight: 900;
-      text-decoration: none;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 15px;
-    }
-
-
-    .contact-strip {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .contact-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 42px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.14);
-      border: 1px solid rgba(255,255,255,.22);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 900;
-    }
-
-    .consent {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      margin: 12px 0 14px;
-      font-size: 13px;
-      line-height: 1.45;
-      color: var(--muted);
-    }
-
-    .consent input {
-      width: 18px;
-      height: 18px;
-      margin-top: 1px;
-      accent-color: var(--accent);
-      flex: 0 0 auto;
-    }
-
-    .consent a {
-      color: var(--accent2);
-      font-weight: 900;
-    }
-
-
-    .hidden { display: none !important; }
-
-    @media (max-width: 980px) {
-      .quiz-shell { grid-template-columns: 1fr; }
-      .hero { min-height: auto; }
-      .quiz { min-height: 650px; }
-      .hero-points { grid-template-columns: repeat(3, 1fr); }
-    }
-
-    @media (max-width: 680px) {
-      .page { padding: 12px; }
-      .hero { padding: 22px; border-radius: 24px; }
-      .quiz { border-radius: 24px; min-height: 620px; }
-      .quiz-top { padding: 18px; }
-      .quiz-body { padding: 22px 18px; }
-      .options { grid-template-columns: 1fr; }
-      .option { min-height: 76px; padding: 13px; border-radius: 17px; }
-      .start-grid, .hero-points, .success-actions { grid-template-columns: 1fr; }
-      .bottom-row { align-items: flex-start; }
-      .hint { max-width: 170px; }
+    @media (max-width: 620px){
+      .container{width:min(100% - 24px, 1160px)}
+      .nav__inner{height:66px}.nav__cta{display:none}.logo__mark{width:40px;height:40px}
+      h1{letter-spacing:-2.2px}.hero__lead{font-size:17px}.btn{width:100%;padding:16px 18px}
+      .dashboard{padding:12px;border-radius:26px}.screen{padding:14px;border-radius:20px}.profit-card strong{font-size:32px}
+      .mini-grid,.flow,.automation-grid,.steps{grid-template-columns:1fr}
+      .section-head{margin-bottom:18px}section{padding:38px 0}.pain-card,.cta-panel{padding:18px;border-radius:26px}
+      .big-number b{font-size:70px}.big-number h3{font-size:28px}
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <div class="quiz-shell">
-      <aside class="hero">
-        <div>
-          <div class="kicker">⚡ Квиз на 2 минуты · без сложных терминов</div>
-          <h1>Найдём ручную работу, которую можно автоматизировать быстро</h1>
-          <p>Для бухгалтерии, кадровиков и HR: Excel, документы, отчёты, заявки, напоминания, сверки и повторяющиеся действия.</p>
+  <div class="noise"></div>
+  <div class="page">
+    <header class="nav">
+      <div class="container nav__inner">
+        <a class="logo" href="#top" aria-label="Автоматизация маркетплейсов">
+          <span class="logo__mark"><span>⚡</span></span>
+          <span>Автоматизация маркетплейсов</span>
+        </a>
+        <nav class="nav__links" aria-label="Навигация">
+          <a href="#problems">Боли</a>
+          <a href="#automation">Автоматизации</a>
+          <a href="#process">Внедрение</a>
+        </nav>
+        <a class="nav__cta" href="#brief">Получить карту</a>
+      </div>
+    </header>
 
-          <div class="hero-points">
-            <div class="point">
-              <div class="point-icon">📄</div>
-              <div><strong>Без аудита 1С</strong><span>Сначала разбираем процесс, а не лезем в настройки.</span></div>
+    <main id="top">
+      <section class="hero">
+        <div class="container hero__grid">
+          <div class="hero__copy reveal">
+            <div class="eyebrow"><i></i> Автоматизация WB · Ozon · Яндекс Маркет</div>
+            <h1>Автоматизируйте маркетплейсы <span class="gradient-text">без Excel, хаоса и ручных сверок</span></h1>
+            <p class="hero__lead">Собираем данные из кабинетов и API в один живой дашборд. Вы каждый день видите чистую прибыль по SKU, минусовые товары, зависшие остатки, расходы на рекламу и задачи для команды — без ручных сверок в Excel.</p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#brief">Получить карту автоматизации →</a>
+              <a class="btn btn--ghost" href="https://t.me/AmalTarget" target="_blank" rel="noopener">Написать в Telegram</a>
             </div>
-            <div class="point">
-              <div class="point-icon">⏱️</div>
-              <div><strong>Фокус на времени</strong><span>Ищем задачи, которые забирают часы каждую неделю.</span></div>
+            <div class="hero__chips" aria-label="Преимущества">
+              <span class="chip">Unit-экономика по SKU</span>
+              <span class="chip">Автоотчёты утром</span>
+              <span class="chip">Алерты в Telegram</span>
+              <span class="chip">API + 1С / МойСклад / CRM</span>
             </div>
-            <div class="point">
-              <div class="point-icon">🧩</div>
-              <div><strong>Простые решения</strong><span>Таблицы, скрипты, шаблоны, уведомления, мини-системы.</span></div>
-            </div>
+            <div class="trust-line"><span>Работаем с данными:</span> WB, Ozon, Яндекс Маркет, Google Sheets, Excel, CRM, 1С и Telegram.</div>
           </div>
-        </div>
 
-        <div class="mini-note">
-          <strong>Что получите:</strong> предварительный разбор, какую задачу стоит автоматизировать первой и какой формат подойдёт: таблица, отчёт, генератор документов, напоминания или простая внутренняя система.
-        </div>
-
-        <div class="contact-strip">
-          <a class="contact-pill" href="tel:+79832676282" onclick="track('quiz_phone_click')">☎ +7 983 267-62-82</a>
-          <a class="contact-pill" href="https://t.me/AmalTarget" target="_blank" rel="noopener" onclick="track('quiz_tg_click')">✈ @AmalTarget</a>
-        </div>
-      </aside>
-
-      <section class="quiz" aria-live="polite">
-        <div class="quiz-top">
-          <div class="progress-meta">
-            <span id="stepText">Старт</span>
-            <span id="percentText">0%</span>
-          </div>
-          <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
-        </div>
-
-        <div class="quiz-body">
-          <div class="screen active" id="startScreen">
-            <div class="question-label">🎯 Бесплатная онлайн-диагностика</div>
-            <h2>Узнайте, где бухгалтерия или кадры теряют время на ручной работе</h2>
-            <p class="subtitle">Ответьте на несколько коротких вопросов. После выбора варианта квиз сам перейдёт дальше — без лишних кнопок.</p>
-
-            <div class="start-card">
-              <strong>Подходит, если у вас есть:</strong>
-              <div class="start-grid">
-                <div class="stat"><strong>Excel</strong><span>несколько файлов, ручные сверки, копирование данных</span></div>
-                <div class="stat"><strong>Документы</strong><span>акты, счета, приказы, заявления, шаблоны</span></div>
-                <div class="stat"><strong>Сроки</strong><span>оплаты, отпуска, испытательные сроки, медкнижки</span></div>
+          <div class="dashboard-wrap reveal">
+            <span class="orb orb--one"></span>
+            <span class="orb orb--two"></span>
+            <div class="dashboard" aria-label="Пример дашборда автоматизации">
+              <div class="screen">
+                <div class="screen__top">
+                  <div class="traffic"><span></span><span></span><span></span></div>
+                  <div class="screen__label">Live dashboard</div>
+                </div>
+                <div class="profit-card">
+                  <small>Чистая прибыль за 30 дней</small>
+                  <strong>₽ 4,82M</strong><em>+18%</em>
+                  <div class="bars">
+                    <div class="bar"><span style="width:82%"></span></div>
+                    <div class="bar"><span></span></div>
+                    <div class="bar"><span></span></div>
+                  </div>
+                </div>
+                <div class="mini-grid">
+                  <div class="mini"><span>ДРР</span><b>8,4%</b></div>
+                  <div class="mini"><span>Неликвид</span><b>37 SKU</b></div>
+                  <div class="mini"><span>Минус</span><b>12 SKU</b></div>
+                </div>
+                <div class="flow">
+                  <div><small>01</small>WB</div>
+                  <div><small>02</small>Ozon</div>
+                  <div><small>03</small>Я.Маркет</div>
+                  <div><small>04</small>Прибыль</div>
+                </div>
               </div>
-            </div>
-
-            <button class="cta" id="startBtn">Начать диагностику →</button>
-            <p class="privacy">Это не бухгалтерская, налоговая и не юридическая консультация. Мы автоматизируем повторяющиеся действия и ручные процессы.</p>
-          </div>
-
-          <div class="screen" id="questionScreen">
-            <div class="question-label" id="questionLabel">Вопрос</div>
-            <h2 id="questionTitle"></h2>
-            <p class="subtitle" id="questionSubtitle"></p>
-            <div class="options" id="options"></div>
-            <div class="bottom-row">
-              <button class="back" id="backBtn">← Назад</button>
-              <div class="hint">Нажмите на вариант — следующий шаг откроется автоматически</div>
-            </div>
-          </div>
-
-          <div class="screen" id="contactScreen">
-            <div class="question-label">✅ Предварительный разбор готов</div>
-            <h2>Куда отправить короткую рекомендацию?</h2>
-            <p class="subtitle">Мы уже видим направление задачи. Оставьте один контакт — пришлём разбор и предложим самый простой вариант автоматизации.</p>
-
-            <div class="pre-result" id="preResult"></div>
-
-            <form class="lead-form" id="leadForm">
-              <div class="field">
-                <label for="phone">Телефон или Telegram *</label>
-                <input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 999 000-00-00 или @username" required />
-              </div>
-              <div class="field">
-                <label for="name">Имя — необязательно</label>
-                <input id="name" name="name" autocomplete="name" placeholder="Как к вам обращаться" />
-              </div>
-              <label class="consent">
-                <input id="consent" name="consent" type="checkbox" required />
-                <span>Согласен на обработку персональных данных для связи по заявке и ознакомлен с <a href="privacy.html" target="_blank" rel="noopener">политикой обработки персональных данных</a>.</span>
-              </label>
-              <button class="cta" type="submit">Получить разбор →</button>
-              <div class="error" id="formError">Введите телефон или Telegram и отметьте согласие.</div>
-              <p class="privacy">Никаких рассылок без отдельного согласия. Контакт нужен только для ответа по заявке.</p>
-            </form>
-
-            <div class="bottom-row">
-              <button class="back" id="backFromContactBtn">← Назад</button>
-              <div class="hint">1 обязательное поле — быстрее для клиента</div>
-            </div>
-          </div>
-
-          <div class="screen" id="successScreen">
-            <div class="success-icon">✓</div>
-            <h2>Спасибо! Заявка получена</h2>
-            <p class="subtitle">Мы получили ваши ответы и свяжемся с вами в течение дня. Если вопрос срочный — напишите в Telegram или позвоните.</p>
-            <div class="pre-result thanks-card" id="finalRecommendation">
-              <strong>Что будет дальше</strong>
-              <p>Посмотрим ответы, уточним 1–2 детали и предложим самый простой вариант автоматизации: таблица, скрипт, шаблон, уведомления или мини-система.</p>
-            </div>
-            <div class="result-box" id="resultBox" hidden></div>
-            <div class="success-actions">
-              <a class="cta" id="waBtn" target="_blank" rel="noopener">Написать в Telegram</a>
-              <a class="secondary-btn" href="tel:+79832676282" onclick="track('quiz_phone_click')">Позвонить</a>
-              <button class="secondary-btn" id="restartBtn">Пройти заново</button>
             </div>
           </div>
         </div>
       </section>
-    </div>
-  </main>
+
+      <section id="problems">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <div class="kicker">Зачем это нужно</div>
+              <h2>Ручные отчёты съедают маржу быстрее, чем кажется</h2>
+            </div>
+            <p class="section-note">Автоматизация нужна не ради «красивых графиков», а чтобы быстро находить деньги, утечки и товары, которые тянут бизнес вниз.</p>
+          </div>
+          <div class="pain-card reveal">
+            <div class="pain-grid">
+              <div class="pain-list">
+                <div class="pain-item"><span>!</span>Чистая прибыль считается поздно: комиссии, логистика, хранение, реклама и возвраты живут в разных отчетах.</div>
+                <div class="pain-item"><span>!</span>Остатки либо заканчиваются в пиковый момент, либо превращаются в замороженные деньги на складе.</div>
+                <div class="pain-item"><span>!</span>Реклама крутится отдельно от unit-экономики, поэтому часть SKU продается красиво, но в минус.</div>
+                <div class="pain-item"><span>!</span>Менеджеры тратят часы на выгрузки, сверки, обновление цен, статусов, поставок и таблиц.</div>
+              </div>
+              <div class="result-box">
+                <h3>Что меняется после внедрения</h3>
+                <p>Утром вы открываете один экран и сразу понимаете: какие товары масштабировать, какие отключить, где поднять цену, куда везти поставку и какая реклама не окупается.</p>
+                <ul class="ticks">
+                  <li>минусовые SKU видны ежедневно;</li>
+                  <li>отчёты приходят автоматически;</li>
+                  <li>остатки и поставки считаются по правилам;</li>
+                  <li>цены, реклама и задачи команды не теряются.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="automation">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <div class="kicker">Что автоматизируем</div>
+              <h2>Все ключевые процессы продавца в одной системе</h2>
+            </div>
+            <p class="section-note">Подключаем то, что даст деньги быстрее: финансы, товары, остатки, отчёты, рекламу, поставки и операционку.</p>
+          </div>
+
+          <div class="automation-grid reveal">
+            <article class="auto-card">
+              <div class="auto-icon">₽</div>
+              <h3>Чистая прибыль и P&L</h3>
+              <p>Выручка, комиссии, логистика, хранение, реклама, налоги, себестоимость, возвраты и маржа по каждому SKU.</p>
+            </article>
+            <article class="auto-card">
+              <div class="auto-icon">📊</div>
+              <h3>Автоотчёты и дашборды</h3>
+              <p>Ежедневные отчёты по продажам, ДДС, ABC/XYZ, оборачиваемости, складам, категориям и менеджерам.</p>
+            </article>
+            <article class="auto-card">
+              <div class="auto-icon">🏷️</div>
+              <h3>Товары, цены и скидки</h3>
+              <p>Контроль карточек, статусов, цен, промо, скидок, карантина цен и массовых изменений без ручного кабинета.</p>
+            </article>
+            <article class="auto-card">
+              <div class="auto-icon">📦</div>
+              <h3>Остатки и поставки</h3>
+              <p>Прогноз дефицита, неликвид, рекомендации по поставкам, контроль складов, регионов и сроков отгрузки.</p>
+            </article>
+            <article class="auto-card">
+              <div class="auto-icon">🚀</div>
+              <h3>Реклама и ставки</h3>
+              <p>ДРР, расход, продажи после рекламы, ставки, автоалерты и правила: усилить прибыльное, остановить минус.</p>
+            </article>
+            <article class="auto-card">
+              <div class="auto-icon">💬</div>
+              <h3>Отзывы, вопросы и чаты</h3>
+              <p>Уведомления, контроль SLA, шаблоны ответов, задачи менеджерам и мониторинг негатива по товарам.</p>
+            </article>
+            <article class="auto-card">
+              <div class="auto-icon">🧾</div>
+              <h3>Заказы и документы</h3>
+              <p>Статусы FBS/DBS/FBY, сборочные задания, маркировка, реквизиты, сверки и интеграции с учетом.</p>
+            </article>
+            <article class="auto-card">
+              <div class="auto-icon">🔔</div>
+              <h3>Алерты и автоправила</h3>
+              <p>Telegram-уведомления: товар ушел в минус, ставка выросла, остаток заканчивается, цена слетела, отчет не сошелся.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="process">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <div class="kicker">Как внедряем</div>
+              <h2>Не строим «комбайн». Собираем систему под вашу экономику</h2>
+            </div>
+          </div>
+          <div class="process reveal">
+            <div class="big-number">
+              <div>
+                <b>4</b>
+                <h3>шага до управляемого маркетплейса</h3>
+                <p>Сначала находим точки потери прибыли, затем подключаем данные и запускаем только те автоматизации, которые реально экономят время или повышают маржу.</p>
+              </div>
+              <div class="hero__chips" style="margin-top:24px">
+                <span class="chip">WB API</span>
+                <span class="chip">Ozon Seller API</span>
+                <span class="chip">Yandex Market API</span>
+              </div>
+            </div>
+            <div class="steps">
+              <div class="step"><span>1</span><h3>Аудит</h3><p>Смотрим кабинеты, отчёты, текущие таблицы, рекламу, себестоимость и задачи команды.</p></div>
+              <div class="step"><span>2</span><h3>Карта данных</h3><p>Определяем, какие API, отчёты, базы и сервисы нужно связать между собой.</p></div>
+              <div class="step"><span>3</span><h3>Дашборд</h3><p>Собираем единый экран: прибыль, продажи, остатки, реклама, возвраты, поставки.</p></div>
+              <div class="step"><span>4</span><h3>Автоправила</h3><p>Включаем алерты, автозадачи, регламенты, выгрузки и контроль отклонений.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="brief">
+        <div class="container">
+          <div class="cta-panel reveal">
+            <div class="cta-copy">
+              <div class="kicker">Начать с карты автоматизации</div>
+              <h2>Покажем, что именно стоит автоматизировать в вашем кабинете</h2>
+              <p>Оставьте контакт — подготовим первичный список автоматизаций: где быстро убрать ручной труд, где считать чистую прибыль и какие отчёты нужны собственнику каждый день.</p>
+              <div class="price-row">
+                <span>1 экран для собственника</span>
+                <span>финансы по SKU</span>
+                <span>остатки и поставки</span>
+                <span>реклама + ДРР</span>
+              </div>
+            </div>
+            <form class="form" id="leadForm">
+              <h3>Получить карту</h3>
+              <div class="field">
+                <label for="name">Ваше имя</label>
+                <input id="name" name="name" type="text" placeholder="Например, Иван" required />
+              </div>
+              <div class="field">
+                <label for="contact">Телефон или Telegram</label>
+                <input id="contact" name="contact" type="text" placeholder="@username или +7..." required />
+              </div>
+              <div class="field">
+                <label for="marketplace">Где продаете</label>
+                <select id="marketplace" name="marketplace" required>
+                  <option value="">Выберите вариант</option>
+                  <option>Wildberries</option>
+                  <option>Ozon</option>
+                  <option>Яндекс Маркет</option>
+                  <option>Несколько площадок</option>
+                  <option>Пока планирую запуск</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" type="submit">Хочу карту автоматизации</button>
+                <a class="btn btn--ghost" href="https://t.me/AmalTarget" target="_blank" rel="noopener">Написать в Telegram</a>
+              </div>
+              <small>Форма отправляет заявку в Telegram через подключенный Google Apps Script. Если отправка не пройдет, данные скопируются и откроется Telegram.</small>
+              <div class="success" id="successMsg">Заявка скопирована. Вставьте её в открывшийся Telegram-чат.</div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">Автоматизация маркетплейсов · отчёты, прибыль, остатки, реклама и автоправила</div>
+    </footer>
+  </div>
 
   <script>
-    // === НАСТРОЙКИ ===
-    const CONTACT_PHONE = "+79832676282";
-    const TELEGRAM_USERNAME = "AmalTarget";
-    const METRIKA_ID = 109038656;
-
-    // Единый webhook для заявок AmalSite + квиз.
-    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw4U5ujb4G7gN1823AzMyM9z9-wRdhhkJC_uxSBZ6dvAL92Q9c1PqYK8gTc6ZkJzk-10Q/exec";
-
-    const flows = {
-      common: [
-        {
-          id: "direction",
-          label: "Шаг 1 из 6",
-          title: "Кому нужна автоматизация?",
-          subtitle: "Выберите направление — дальше вопросы подстроятся под вашу задачу.",
-          options: [
-            { value: "Бухгалтерия", title: "Бухгалтерия", hint: "сверки, документы, отчёты, оплаты", icon: "🧾" },
-            { value: "Кадры / HR", title: "Кадры / HR", hint: "отпуска, приказы, сотрудники, сроки", icon: "👥" },
-            { value: "Не знаю", title: "Пока не знаю", hint: "хочу понять, что можно автоматизировать", icon: "🔎" }
-          ]
-        }
-      ],
-      accounting: [
-        {
-          id: "pain",
-          label: "Шаг 2 из 6",
-          title: "Что сильнее всего тормозит работу?",
-          subtitle: "Выберите одну главную боль. Остальное можно уточнить потом.",
-          options: [
-            { value: "Ручной ввод данных", title: "Ручной ввод данных", hint: "копирование из файлов, почты, 1С, банков", icon: "⌨️" },
-            { value: "Сверки Excel", title: "Сверки Excel-файлов", hint: "сравнить, найти расхождения, собрать итог", icon: "📊" },
-            { value: "Документы по шаблонам", title: "Акты, счета, накладные", hint: "много однотипных документов", icon: "📄" },
-            { value: "Оплаты и дебиторка", title: "Оплаты и дебиторка", hint: "напоминания, статусы, контроль оплат", icon: "💸" },
-            { value: "Отчёты", title: "Отчёты из разных источников", hint: "собрать данные и показать итог", icon: "📈" },
-            { value: "ЭДО / выгрузки", title: "ЭДО / выгрузки / 1С", hint: "обмен, файлы, реестры, повторные операции", icon: "🔁" }
-          ]
-        },
-        {
-          id: "where",
-          label: "Шаг 3 из 6",
-          title: "Где сейчас происходит основная работа?",
-          subtitle: "Это нужно, чтобы понять формат будущей автоматизации.",
-          options: [
-            { value: "Excel / Google Sheets", title: "Excel / Google Sheets", hint: "таблицы, формулы, сводные, файлы", icon: "🟩" },
-            { value: "1С", title: "1С", hint: "выгрузки, отчёты, документы, обмен", icon: "🟨" },
-            { value: "ЭДО", title: "СБИС / Контур / Диадок", hint: "документы и обмен с контрагентами", icon: "📨" },
-            { value: "Почта и папки", title: "Почта и папки", hint: "файлы приходят вручную и теряются", icon: "📁" },
-            { value: "Банк / маркетплейсы", title: "Банк / маркетплейсы", hint: "выписки, реестры, отчёты продаж", icon: "🏦" },
-            { value: "Везде понемногу", title: "Везде понемногу", hint: "несколько программ и нет единого порядка", icon: "🧩" }
-          ]
-        },
-        {
-          id: "volume",
-          label: "Шаг 4 из 6",
-          title: "Сколько времени это забирает?",
-          subtitle: "Примерно. Точные цифры не нужны.",
-          options: [
-            { value: "До 2 часов в неделю", title: "До 2 часов в неделю", hint: "можно сделать лёгкое улучшение", icon: "🕐" },
-            { value: "2–5 часов в неделю", title: "2–5 часов в неделю", hint: "уже есть смысл автоматизировать", icon: "⏳" },
-            { value: "5–10 часов в неделю", title: "5–10 часов в неделю", hint: "приоритетная задача", icon: "🔥" },
-            { value: "Больше 10 часов", title: "Больше 10 часов", hint: "сильная потеря времени", icon: "🚨" },
-            { value: "Не считали, но много", title: "Не считали, но много", hint: "разберём процесс по шагам", icon: "🤔" },
-            { value: "Зависит от периода", title: "Зависит от периода", hint: "особенно в конце месяца / квартала", icon: "📅" }
-          ]
-        },
-        {
-          id: "result",
-          label: "Шаг 5 из 6",
-          title: "Какой результат нужен первым?",
-          subtitle: "Выберите самый полезный итог.",
-          options: [
-            { value: "Автоматическая сверка", title: "Автоматическая сверка", hint: "сравнение файлов и поиск расхождений", icon: "✅" },
-            { value: "Автоотчёт", title: "Автоматический отчёт", hint: "данные собираются в понятный итог", icon: "📊" },
-            { value: "Генератор документов", title: "Генератор документов", hint: "акты, счета, письма по шаблону", icon: "📝" },
-            { value: "Напоминания", title: "Напоминания по срокам", hint: "оплаты, документы, статусы", icon: "🔔" },
-            { value: "Мини-система", title: "Мини-система учёта", hint: "одна понятная таблица или веб-форма", icon: "🧠" },
-            { value: "План автоматизации", title: "Сначала нужен план", hint: "понять, что делать первым", icon: "🗺️" }
-          ]
-        },
-        {
-          id: "urgency",
-          label: "Шаг 6 из 6",
-          title: "Когда хотите решить задачу?",
-          subtitle: "Это поможет отделить горячую задачу от идеи на будущее.",
-          options: [
-            { value: "Срочно", title: "Срочно", hint: "горит сейчас", icon: "🚀" },
-            { value: "В течение недели", title: "В течение недели", hint: "нужно быстро запустить", icon: "⚡" },
-            { value: "В течение месяца", title: "В течение месяца", hint: "можно спокойно внедрить", icon: "📆" },
-            { value: "Пока изучаем", title: "Пока изучаем", hint: "хотим понять возможности", icon: "👀" }
-          ]
-        }
-      ],
-      hr: [
-        {
-          id: "pain",
-          label: "Шаг 2 из 6",
-          title: "Что больше всего отнимает время у кадров / HR?",
-          subtitle: "Выберите одну главную боль. Остальное можно уточнить потом.",
-          options: [
-            { value: "Отпуска и заявления", title: "Отпуска и заявления", hint: "заявки, согласования, остатки дней", icon: "🏖️" },
-            { value: "Приказы и шаблоны", title: "Приказы и документы", hint: "однотипные шаблоны вручную", icon: "📄" },
-            { value: "Кадровые таблицы", title: "Кадровые Excel-таблицы", hint: "сотрудники, статусы, обновления", icon: "📊" },
-            { value: "Сроки", title: "Сроки и напоминания", hint: "испытательные, медкнижки, обучение", icon: "🔔" },
-            { value: "Кандидаты", title: "Кандидаты и найм", hint: "отклики, этапы, статусы", icon: "🧲" },
-            { value: "Воинский учёт", title: "Воинский учёт", hint: "реестры, сроки, контроль данных", icon: "🪖" }
-          ]
-        },
-        {
-          id: "where",
-          label: "Шаг 3 из 6",
-          title: "Где сейчас ведёте кадровые процессы?",
-          subtitle: "Это нужно, чтобы подобрать простой формат автоматизации.",
-          options: [
-            { value: "Excel / Google Sheets", title: "Excel / Google Sheets", hint: "таблицы, списки, статусы", icon: "🟩" },
-            { value: "1С ЗУП", title: "1С ЗУП", hint: "данные сотрудников и кадровые операции", icon: "🟨" },
-            { value: "Почта / мессенджеры", title: "Почта / мессенджеры", hint: "заявки и согласования в переписках", icon: "💬" },
-            { value: "Бумага", title: "Бумажные документы", hint: "заявления, подписи, папки", icon: "📚" },
-            { value: "CRM / HR-система", title: "CRM / HR-система", hint: "есть система, но не хватает порядка", icon: "🧰" },
-            { value: "Везде понемногу", title: "Везде понемногу", hint: "данные разбросаны", icon: "🧩" }
-          ]
-        },
-        {
-          id: "volume",
-          label: "Шаг 4 из 6",
-          title: "Сколько сотрудников в компании?",
-          subtitle: "По этому видно, насколько быстро окупится автоматизация.",
-          options: [
-            { value: "До 10", title: "До 10", hint: "можно начать с простой таблицы", icon: "👤" },
-            { value: "10–30", title: "10–30", hint: "уже полезны заявки и напоминания", icon: "👥" },
-            { value: "30–100", title: "30–100", hint: "нужен порядок в процессах", icon: "🏢" },
-            { value: "100–300", title: "100–300", hint: "автоматизация почти обязательна", icon: "🏬" },
-            { value: "Больше 300", title: "Больше 300", hint: "нужны маршруты и контроль статусов", icon: "🏭" },
-            { value: "Не знаю точно", title: "Не знаю точно", hint: "уточним позже", icon: "🤔" }
-          ]
-        },
-        {
-          id: "result",
-          label: "Шаг 5 из 6",
-          title: "Что хотите получить на выходе?",
-          subtitle: "Выберите первый полезный результат.",
-          options: [
-            { value: "Заявки сотрудников", title: "Заявки сотрудников", hint: "отпуск, справка, документ через форму", icon: "📩" },
-            { value: "Генератор документов", title: "Генератор документов", hint: "приказы и заявления по шаблону", icon: "📝" },
-            { value: "Напоминания", title: "Напоминания по срокам", hint: "испытательные, медкнижки, обучение", icon: "🔔" },
-            { value: "Единая таблица", title: "Единая таблица статусов", hint: "сотрудники, документы, контроль", icon: "📋" },
-            { value: "Дашборд руководителю", title: "Дашборд руководителю", hint: "видно, что в работе и где задержки", icon: "📈" },
-            { value: "План автоматизации", title: "Сначала нужен план", hint: "понять, что делать первым", icon: "🗺️" }
-          ]
-        },
-        {
-          id: "urgency",
-          label: "Шаг 6 из 6",
-          title: "Когда хотите решить задачу?",
-          subtitle: "Это поможет отделить горячую задачу от идеи на будущее.",
-          options: [
-            { value: "Срочно", title: "Срочно", hint: "горит сейчас", icon: "🚀" },
-            { value: "В течение недели", title: "В течение недели", hint: "нужно быстро запустить", icon: "⚡" },
-            { value: "В течение месяца", title: "В течение месяца", hint: "можно спокойно внедрить", icon: "📆" },
-            { value: "Пока изучаем", title: "Пока изучаем", hint: "хотим понять возможности", icon: "👀" }
-          ]
-        }
-      ],
-      unknown: [
-        {
-          id: "pain",
-          label: "Шаг 2 из 6",
-          title: "Где больше всего хаоса?",
-          subtitle: "Выберите то, что ближе всего к вашей ситуации.",
-          options: [
-            { value: "Excel", title: "Excel и таблицы", hint: "много файлов и ручных правок", icon: "📊" },
-            { value: "Документы", title: "Документы", hint: "шаблоны, копирование, подписи", icon: "📄" },
-            { value: "Сроки", title: "Сроки и напоминания", hint: "контроль оплат, отпусков, документов", icon: "🔔" },
-            { value: "Повторный ввод", title: "Повторный ввод данных", hint: "одно и то же в разные системы", icon: "⌨️" },
-            { value: "Отчёты", title: "Отчёты", hint: "данные надо собирать вручную", icon: "📈" },
-            { value: "Не понимаю", title: "Не понимаю, с чего начать", hint: "нужна быстрая диагностика", icon: "🔎" }
-          ]
-        },
-        {
-          id: "where",
-          label: "Шаг 3 из 6",
-          title: "Какая зона ближе к задаче?",
-          subtitle: "Это поможет выбрать ветку решения.",
-          options: [
-            { value: "Бухгалтерия", title: "Больше бухгалтерия", hint: "документы, платежи, сверки, отчёты", icon: "🧾" },
-            { value: "Кадры / HR", title: "Больше кадры / HR", hint: "сотрудники, заявления, отпуска, сроки", icon: "👥" },
-            { value: "Оба направления", title: "И бухгалтерия, и кадры", hint: "процессы пересекаются", icon: "🧩" },
-            { value: "Административные задачи", title: "Административные задачи", hint: "файлы, заявки, уведомления, порядок", icon: "🗂️" }
-          ]
-        },
-        {
-          id: "volume",
-          label: "Шаг 4 из 6",
-          title: "Сколько времени теряется на ручных действиях?",
-          subtitle: "Примерно. Точные цифры не нужны.",
-          options: [
-            { value: "До 2 часов в неделю", title: "До 2 часов в неделю", hint: "можно сделать лёгкое улучшение", icon: "🕐" },
-            { value: "2–5 часов в неделю", title: "2–5 часов в неделю", hint: "уже есть смысл автоматизировать", icon: "⏳" },
-            { value: "5–10 часов в неделю", title: "5–10 часов в неделю", hint: "приоритетная задача", icon: "🔥" },
-            { value: "Больше 10 часов", title: "Больше 10 часов", hint: "сильная потеря времени", icon: "🚨" },
-            { value: "Не считали", title: "Не считали", hint: "разберём процесс по шагам", icon: "🤔" }
-          ]
-        },
-        {
-          id: "result",
-          label: "Шаг 5 из 6",
-          title: "Что хотите получить первым?",
-          subtitle: "Выберите результат, который будет полезен уже сейчас.",
-          options: [
-            { value: "План автоматизации", title: "План автоматизации", hint: "что делать первым и почему", icon: "🗺️" },
-            { value: "Автоматическая таблица", title: "Автоматическая таблица", hint: "порядок, статусы, расчёты", icon: "📋" },
-            { value: "Генератор документов", title: "Генератор документов", hint: "шаблоны без ручного копирования", icon: "📝" },
-            { value: "Напоминания", title: "Напоминания", hint: "чтобы сроки не терялись", icon: "🔔" },
-            { value: "Отчёт", title: "Автоматический отчёт", hint: "данные собираются в итог", icon: "📈" }
-          ]
-        },
-        {
-          id: "urgency",
-          label: "Шаг 6 из 6",
-          title: "Когда хотите решить задачу?",
-          subtitle: "Это поможет отделить горячую задачу от идеи на будущее.",
-          options: [
-            { value: "Срочно", title: "Срочно", hint: "горит сейчас", icon: "🚀" },
-            { value: "В течение недели", title: "В течение недели", hint: "нужно быстро запустить", icon: "⚡" },
-            { value: "В течение месяца", title: "В течение месяца", hint: "можно спокойно внедрить", icon: "📆" },
-            { value: "Пока изучаем", title: "Пока изучаем", hint: "хотим понять возможности", icon: "👀" }
-          ]
-        }
-      ]
-    };
-
-    const state = {
-      flow: [],
-      index: 0,
-      answers: {},
-      lead: {}
-    };
-
-    const $ = (id) => document.getElementById(id);
-
-    const screens = {
-      start: $("startScreen"),
-      question: $("questionScreen"),
-      contact: $("contactScreen"),
-      success: $("successScreen")
-    };
-
-    const ui = {
-      stepText: $("stepText"),
-      percentText: $("percentText"),
-      progressBar: $("progressBar"),
-      questionLabel: $("questionLabel"),
-      questionTitle: $("questionTitle"),
-      questionSubtitle: $("questionSubtitle"),
-      options: $("options"),
-      backBtn: $("backBtn"),
-      backFromContactBtn: $("backFromContactBtn"),
-      preResult: $("preResult"),
-      leadForm: $("leadForm"),
-      formError: $("formError"),
-      consent: $("consent"),
-      resultBox: $("resultBox"),
-      finalRecommendation: $("finalRecommendation"),
-      waBtn: $("waBtn"),
-      restartBtn: $("restartBtn")
-    };
-
-    function showScreen(name) {
-      Object.values(screens).forEach(screen => screen.classList.remove("active"));
-      screens[name].classList.add("active");
-    }
-
-    function setProgress() {
-      if (!state.flow.length) {
-        ui.stepText.textContent = "Старт";
-        ui.percentText.textContent = "0%";
-        ui.progressBar.style.width = "0%";
-        return;
-      }
-
-      const totalSteps = state.flow.length + 1; // + контактный шаг
-      const currentStep = Math.min(state.index + 1, totalSteps);
-      const percent = Math.round((currentStep / totalSteps) * 100);
-      ui.stepText.textContent = state.flow[state.index]?.label || "Финал";
-      ui.percentText.textContent = `${percent}%`;
-      ui.progressBar.style.width = `${percent}%`;
-    }
-
-    function setContactProgress() {
-      const percent = 92;
-      ui.stepText.textContent = "Финальный шаг";
-      ui.percentText.textContent = `${percent}%`;
-      ui.progressBar.style.width = `${percent}%`;
-    }
-
-    function setSuccessProgress() {
-      ui.stepText.textContent = "Готово";
-      ui.percentText.textContent = "100%";
-      ui.progressBar.style.width = "100%";
-    }
-
-    function startQuiz() {
-      state.flow = [...flows.common];
-      state.index = 0;
-      state.answers = {};
-      state.lead = {};
-      showScreen("question");
-      renderQuestion();
-      track("quiz_start");
-    }
-
-    function getBranch(direction) {
-      if (direction === "Бухгалтерия") return flows.accounting;
-      if (direction === "Кадры / HR") return flows.hr;
-      return flows.unknown;
-    }
-
-    function currentQuestion() {
-      return state.flow[state.index];
-    }
-
-    function renderQuestion() {
-      const q = currentQuestion();
-      ui.questionLabel.textContent = q.label;
-      ui.questionTitle.textContent = q.title;
-      ui.questionSubtitle.textContent = q.subtitle || "";
-      ui.options.innerHTML = "";
-      ui.backBtn.disabled = state.index === 0;
-
-      q.options.forEach(option => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "option";
-        button.innerHTML = `
-          <span class="option-emoji" aria-hidden="true">${option.icon}</span>
-          <span>
-            <span class="option-title">${option.title}</span>
-            <span class="option-hint">${option.hint}</span>
-          </span>
-        `;
-        button.addEventListener("click", () => chooseOption(q, option, button));
-        ui.options.appendChild(button);
+    const revealItems = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
+    }, { threshold: 0.15 });
+    revealItems.forEach((item) => observer.observe(item));
 
-      setProgress();
-      track("quiz_step", { step: state.index + 1, question: q.id });
+    const TELEGRAM_USERNAME = 'AmalTarget';
+    const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyXYWZ4n88gVclSqMiPEFdl6P1V-Qwt5wbe_L4usFbaPCBAO-iAw7SGxZw9oTZYhvRqzg/exec';
+
+    const form = document.getElementById('leadForm');
+    const success = document.getElementById('successMsg');
+
+    function leadText(data) {
+      return [
+        'Заявка на карту автоматизации маркетплейсов',
+        `Имя: ${data.name}`,
+        `Контакт: ${data.contact}`,
+        `Маркетплейс: ${data.marketplace}`,
+        'Источник: лендинг автоматизации маркетплейсов'
+      ].join('\n');
     }
 
-    function chooseOption(question, option, button) {
-      state.answers[question.id] = option.value;
-      Array.from(ui.options.children).forEach(item => item.classList.remove("selected"));
-      button.classList.add("selected");
-
-      if (question.id === "direction") {
-        state.flow = [...flows.common, ...getBranch(option.value)];
-      }
-
-      window.setTimeout(() => {
-        if (state.index < state.flow.length - 1) {
-          state.index += 1;
-          renderQuestion();
-        } else {
-          renderContact();
-        }
-      }, 260);
-    }
-
-    function goBack() {
-      if (state.index > 0) {
-        state.index -= 1;
-        renderQuestion();
-      }
-    }
-
-    function renderContact() {
-      ui.preResult.innerHTML = buildPreResultHTML();
-      showScreen("contact");
-      setContactProgress();
-      track("quiz_contact_step");
-    }
-
-    function buildRecommendation() {
-      const direction = state.answers.direction;
-      const pain = state.answers.pain || "ручной процесс";
-      const result = state.answers.result || "план автоматизации";
-      const urgency = state.answers.urgency || "не указано";
-      const volume = state.answers.volume || "не указано";
-      const where = state.answers.where || "не указано";
-
-      let service = "Экспресс-разбор процесса и план автоматизации";
-      let firstStep = "разобрать процесс по шагам и выбрать самый простой способ убрать ручные действия";
-
-      if (direction === "Бухгалтерия") {
-        if (pain.includes("Сверки") || result.includes("сверка")) {
-          service = "Автоматическая сверка файлов и реестров";
-          firstStep = "взять 2–3 примера файлов и собрать правило сверки: что сравниваем, где ошибка, какой итог нужен";
-        } else if (pain.includes("Документы") || result.includes("документ")) {
-          service = "Генератор бухгалтерских документов по шаблону";
-          firstStep = "определить шаблоны документов и поля, которые можно подставлять автоматически";
-        } else if (pain.includes("Оплаты") || result.includes("Напоминания")) {
-          service = "Контроль оплат, сроков и дебиторки";
-          firstStep = "собрать список статусов, дат и ответственных, чтобы настроить напоминания";
-        } else if (pain.includes("Отчёты") || result.includes("отчёт")) {
-          service = "Автоматический отчёт из таблиц, выгрузок и файлов";
-          firstStep = "понять источники данных и собрать единый итоговый формат отчёта";
-        } else {
-          service = "Автоматизация ручного ввода и повторяющихся операций";
-          firstStep = "найти, какие данные повторно переносятся вручную, и заменить это таблицей, скриптом или формой";
-        }
-      }
-
-      if (direction === "Кадры / HR") {
-        if (pain.includes("Отпуска") || result.includes("Заявки")) {
-          service = "Форма заявок сотрудников и учёт отпусков";
-          firstStep = "описать маршрут заявки: сотрудник → руководитель → кадровик → статус";
-        } else if (pain.includes("Приказы") || result.includes("документ")) {
-          service = "Генератор кадровых документов по шаблону";
-          firstStep = "собрать шаблоны приказов/заявлений и список полей для автоподстановки";
-        } else if (pain.includes("Сроки") || result.includes("Напоминания")) {
-          service = "Напоминания по кадровым срокам";
-          firstStep = "собрать даты, статусы и ответственных, чтобы настроить уведомления";
-        } else if (pain.includes("Кандидаты")) {
-          service = "Простая база кандидатов и статусов найма";
-          firstStep = "описать этапы подбора и какие статусы должен видеть HR/руководитель";
-        } else if (pain.includes("Воинский")) {
-          service = "Реестр и контроль данных для воинского учёта";
-          firstStep = "собрать поля реестра, сроки обновления и напоминания без юридических консультаций";
-        } else {
-          service = "Кадровая мини-система: сотрудники, статусы, документы, сроки";
-          firstStep = "выбрать один процесс, который чаще всего повторяется и забирает время";
-        }
-      }
-
-      if (direction === "Не знаю") {
-        service = "Карта ручных процессов и быстрый план автоматизации";
-        firstStep = "разобрать, где больше всего повторных действий: Excel, документы, сроки или отчёты";
-      }
-
-      let priority = "средний";
-      if (["Срочно", "В течение недели"].includes(urgency) || ["5–10 часов в неделю", "Больше 10 часов"].includes(volume) || ["100–300", "Больше 300"].includes(volume)) {
-        priority = "высокий";
-      }
-
-      return { direction, pain, where, volume, result, urgency, service, firstStep, priority };
-    }
-
-    function buildPreResultHTML() {
-      const r = buildRecommendation();
-      return `
-        <strong>Предварительно подходит: ${escapeHTML(r.service)}</strong>
-        <p>Приоритет: <b>${escapeHTML(r.priority)}</b>. Полный разбор лучше отправить в личное сообщение: что делать первым, какие данные нужны и какой простой формат решения выбрать.</p>
-      `;
-    }
-
-    function buildFinalRecommendationHTML() {
-      const r = buildRecommendation();
-      return `
-        <strong>Рекомендация: ${escapeHTML(r.service)}</strong>
-        <p>Первый шаг: ${escapeHTML(r.firstStep)}.</p>
-      `;
-    }
-
-    function collectLead() {
-      return {
-        phone: $("phone").value.trim(),
-        name: $("name").value.trim()
-      };
-    }
-
-    function formatApplication() {
-      const r = buildRecommendation();
-      const lines = [];
-      lines.push("Новая заявка с квиза автоматизации");
-      lines.push("");
-      lines.push("Контакт:");
-      lines.push(`Телефон или Telegram: ${state.lead.phone || "—"}`);
-      lines.push(`Имя: ${state.lead.name || "—"}`);
-      lines.push("");
-      lines.push("Ответы:");
-      lines.push(`Направление: ${r.direction || "—"}`);
-      lines.push(`Главная боль: ${r.pain || "—"}`);
-      lines.push(`Где работает: ${r.where || "—"}`);
-      lines.push(`Объём / масштаб: ${r.volume || "—"}`);
-      lines.push(`Желаемый результат: ${r.result || "—"}`);
-      lines.push(`Срочность: ${r.urgency || "—"}`);
-      lines.push("");
-      lines.push("Предварительная рекомендация:");
-      lines.push(`Услуга: ${r.service}`);
-      lines.push(`Приоритет: ${r.priority}`);
-      lines.push(`Первый шаг: ${r.firstStep}`);
-      lines.push("");
-      lines.push(`Дата: ${new Date().toLocaleString("ru-RU")}`);
-      return lines.join("\n");
-    }
-
-    async function submitLead(event) {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      ui.formError.style.display = "none";
-      state.lead = collectLead();
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.page = window.location.href;
+      data.source = 'landing_marketplace_automation';
+      data.task = 'Получить карту автоматизации маркетплейсов';
+      const text = leadText(data);
 
-      if (!state.lead.phone || !ui.consent.checked) {
-        ui.formError.style.display = "block";
-        return;
+      if (WEBHOOK_URL) {
+        try {
+          await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(data)
+          });
+          success.textContent = 'Готово. Заявка отправлена.';
+        } catch (error) {
+          success.textContent = 'Не удалось отправить заявку. Напишите в Telegram — данные скопированы.';
+          await navigator.clipboard?.writeText(text);
+          window.open(`https://t.me/${TELEGRAM_USERNAME}`, '_blank');
+        }
+      } else {
+        await navigator.clipboard?.writeText(text);
+        window.open(`https://t.me/${TELEGRAM_USERNAME}`, '_blank');
+        success.textContent = 'Заявка скопирована. Вставьте её в открывшийся Telegram-чат.';
       }
 
-      const payload = {
-        source: "quiz_buh_hr_conversion",
-        lead: state.lead,
-        answers: state.answers,
-        recommendation: buildRecommendation(),
-        createdAt: new Date().toISOString(),
-        url: window.location.href
-      };
-
-      const text = formatApplication();
-      const body = buildWebhookBody(payload, text);
-      submitWebhookForm(body);
-
-      if (ui.resultBox) ui.resultBox.textContent = text;
-      ui.finalRecommendation.innerHTML = `
-        <strong>Что будет дальше</strong>
-        <p>Посмотрим ответы, уточним 1–2 детали и предложим самый простой вариант автоматизации: таблица, скрипт, шаблон, уведомления или мини-система.</p>
-      `;
-      ui.waBtn.href = `https://t.me/${TELEGRAM_USERNAME}`;
-      showScreen("success");
-      setSuccessProgress();
-      track("quiz_submit", { direction: state.answers.direction, urgency: state.answers.urgency });
-    }
-
-    function buildWebhookBody(payload, applicationText) {
-      const body = new URLSearchParams();
-      body.append("source", payload.source);
-      body.append("phone", state.lead.phone || "");
-      body.append("contact", state.lead.phone || "");
-      body.append("name", state.lead.name || "");
-      body.append("message", applicationText);
-      body.append("answers", JSON.stringify(payload.answers));
-      body.append("recommendation", JSON.stringify(payload.recommendation));
-      body.append("createdAt", payload.createdAt);
-      body.append("url", payload.url);
-      body.append("page", payload.url);
-      body.append("data", JSON.stringify(payload));
-      return body;
-    }
-
-    function submitWebhookForm(body) {
-      if (!WEBHOOK_URL) return;
-
-      try {
-        const frameName = "leadWebhookFrame_" + Date.now();
-        const iframe = document.createElement("iframe");
-        iframe.name = frameName;
-        iframe.style.display = "none";
-
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = WEBHOOK_URL;
-        form.target = frameName;
-        form.style.display = "none";
-
-        body.forEach((value, key) => {
-          const input = document.createElement("input");
-          input.type = "hidden";
-          input.name = key;
-          input.value = value;
-          form.appendChild(input);
-        });
-
-        document.body.appendChild(iframe);
-        document.body.appendChild(form);
-        form.submit();
-
-        window.setTimeout(() => {
-          form.remove();
-          iframe.remove();
-        }, 12000);
-      } catch (error) {
-        console.warn("Webhook form error", error);
-
-        fetch(WEBHOOK_URL, {
-          method: "POST",
-          mode: "no-cors",
-          body
-        }).catch(fetchError => console.warn("Webhook fetch error", fetchError));
-      }
-    }
-
-    function restart() {
-      $("phone").value = "";
-      $("name").value = "";
-      if (ui.consent) ui.consent.checked = false;
-      startQuiz();
-    }
-
-    function escapeHTML(value) {
-      return String(value || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function track(eventName, params = {}) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: eventName, ...params });
-
-      if (typeof ym === "function" && METRIKA_ID) {
-        ym(METRIKA_ID, "reachGoal", eventName, params);
-      }
-
-      window.dispatchEvent(new CustomEvent(eventName, { detail: params }));
-    }
-
-    $("startBtn").addEventListener("click", startQuiz);
-    ui.backBtn.addEventListener("click", goBack);
-    ui.backFromContactBtn.addEventListener("click", () => {
-      showScreen("question");
-      setProgress();
+      success.style.display = 'block';
+      form.reset();
     });
-    ui.leadForm.addEventListener("submit", submitLead);
-    ui.restartBtn.addEventListener("click", restart);
-
-    setProgress();
   </script>
 </body>
 </html>
