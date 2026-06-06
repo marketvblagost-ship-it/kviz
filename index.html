@@ -667,6 +667,93 @@ p, li {
   .hero-format .hero-format__icon { display: grid; }
 }
 
+  
+
+/* Fixed contact buttons: phone + Telegram */
+.sticky-contacts {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+.sticky-contacts__btn {
+  pointer-events: auto;
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #fff;
+  box-shadow: 0 18px 36px rgba(8, 17, 31, 0.24);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.sticky-contacts__btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 22px 42px rgba(8, 17, 31, 0.30);
+  filter: brightness(1.04);
+}
+.sticky-contacts__btn svg {
+  width: 27px;
+  height: 27px;
+}
+.sticky-contacts__phone {
+  background: linear-gradient(135deg, var(--gold), var(--gold-hover));
+  color: var(--dark);
+}
+.sticky-contacts__tg {
+  background: linear-gradient(135deg, #2AABEE, #229ED9);
+  color: #fff;
+}
+.sticky-contacts__hint {
+  position: absolute;
+  right: 68px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: max-content;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: rgba(8, 17, 31, 0.92);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility .18s ease;
+}
+.sticky-contacts__btn:hover .sticky-contacts__hint,
+.sticky-contacts__btn:focus-visible .sticky-contacts__hint {
+  opacity: 1;
+  visibility: visible;
+}
+@media (max-width: 768px) {
+  body { padding-bottom: 86px; }
+  .sticky-contacts {
+    left: 16px;
+    right: 16px;
+    top: auto;
+    bottom: 14px;
+    transform: none;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+  }
+  .sticky-contacts__btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    flex: 1 1 0;
+    max-width: 180px;
+  }
+  .sticky-contacts__hint { display: none; }
+}
+
   </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -725,7 +812,7 @@ p, li {
               </div>
               <div class="hero-format">
                 <span class="hero-format__icon" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNDOEE0NUQiIHN0cm9rZS13aWR0aD0iMS45IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogIDxwYXRoIGQ9Ik03LjkgMjBBOSA5IDAgMSAwIDQgMTYuMUwyIDIyWiIvPgogIDxwYXRoIGQ9Ik04IDEyaC4wMSIvPgogIDxwYXRoIGQ9Ik0xMiAxMmguMDEiLz4KICA8cGF0aCBkPSJNMTYgMTJoLjAxIi8+Cjwvc3ZnPgo=" alt="" width="24" height="24"></span>
-                <div><strong>Telegram / MAX</strong><span>Можно начать с переписки и голосовых.</span></div>
+                <div><strong>Telegram</strong><span>Можно начать с переписки или голосового сообщения.</span></div>
               </div>
             </div>
             <p class="hero-card__note">Первичный разбор нужен, чтобы понять, где теряется время, появляются ошибки и повторяется ручная работа.</p>
@@ -924,7 +1011,7 @@ p, li {
           </ul>
         </div>
 
-        <form class="lead-form" id="leadForm" data-endpoint="" novalidate>
+        <form class="lead-form" id="leadForm" data-endpoint="" data-telegram="AmalTarget" novalidate>
           <div class="lead-form__head">
             <span class="lead-form__icon" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNDOEE0NUQiIHN0cm9rZS13aWR0aD0iMS45IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogIDxwYXRoIGQ9Ik04IDJ2NCIvPgogIDxwYXRoIGQ9Ik0xNiAydjQiLz4KICA8cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjQiIHJ4PSIyIi8+CiAgPHBhdGggZD0iTTMgMTBoMTgiLz4KICA8cGF0aCBkPSJtOSAxNiAyIDIgNC00Ii8+Cjwvc3ZnPgo=" alt="" width="24" height="24" loading="lazy"></span>
             <div>
@@ -943,8 +1030,8 @@ p, li {
             <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="phoneError">
             <p class="field-error" id="phoneError" hidden>Введите телефон.</p>
             <div class="contact-options" aria-label="Предпочтительный способ связи">
-              <label class="checkbox-card checkbox-card--messenger"><input type="checkbox" name="contact_method" value="telegram"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0M4QTQ1RCIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTguMjg3IDUuOTA2cS0xLjE2OC40ODYtNC42NjYgMi4wMS0uNTY3LjIyNS0uNTk1LjQ0MmMtLjAzLjI0My4yNzUuMzM5LjY5LjQ3bC4xNzUuMDU1Yy40MDguMTMzLjk1OC4yODggMS4yNDMuMjk0cS4zOS4wMS44NjgtLjMyIDMuMjY5LTIuMjA2IDMuMzc0LTIuMjNjLjA1LS4wMTIuMTItLjAyNi4xNjYuMDE2cy4wNDIuMTIuMDM3LjE0MWMtLjAzLjEyOS0xLjIyNyAxLjI0MS0xLjg0NiAxLjgxNy0uMTkzLjE4LS4zMy4zMDctLjM1OC4zMzZhOCA4IDAgMCAxLS4xODguMTg2Yy0uMzguMzY2LS42NjQuNjQuMDE1IDEuMDg4LjMyNy4yMTYuNTg5LjM5My44NS41NzEuMjg0LjE5NC41NjguMzg3LjkzNi42MjlxLjE0LjA5Mi4yNy4xODdjLjMzMS4yMzYuNjMuNDQ4Ljk5Ny40MTQuMjE0LS4wMi40MzUtLjIyLjU0Ny0uODIuMjY1LTEuNDE3Ljc4Ni00LjQ4Ni45MDYtNS43NTFhMS40IDEuNCAwIDAgMC0uMDEzLS4zMTUuMzQuMzQgMCAwIDAtLjExNC0uMjE3LjUzLjUzIDAgMCAwLS4zMS0uMDkzYy0uMy4wMDUtLjc2My4xNjYtMi45ODQgMS4wOSIvPgo8L3N2Zz4K" alt="" width="20" height="20" loading="lazy"><span>Написать мне в Telegram</span></label>
-              <label class="checkbox-card checkbox-card--messenger"><input type="checkbox" name="contact_method" value="max"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CjxwYXRoIGQ9Ik0xMiAzLjVDNy4wMyAzLjUgMyA2LjkgMyAxMS4xYzAgMi4zOCAxLjMyIDQuNSAzLjM4IDUuOWwtLjQ3IDIuOWMtLjA4LjQ4LjQzLjg0Ljg0LjU5bDMuMDQtMS44MmMuNzEuMTUgMS40NS4yMyAyLjIxLjIzIDQuOTcgMCA5LTMuNCA5LTcuOHMtNC4wMy03LjYtOS03LjZaIiBzdHJva2U9IiNDOEE0NUQiIHN0cm9rZS13aWR0aD0iMS43IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik04IDEyLjFoOE04IDkuM2g4IiBzdHJva2U9IiNDOEE0NUQiIHN0cm9rZS13aWR0aD0iMS43IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" alt="" width="20" height="20" loading="lazy"><span>Написать мне в MAX</span></label>
+              <label class="checkbox-card checkbox-card--messenger"><input type="checkbox" name="contact_method" value="telegram"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0M4QTQ1RCIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTguMjg3IDUuOTA2cS0xLjE2OC40ODYtNC42NjYgMi4wMS0uNTY3LjIyNS0uNTk1LjQ0MmMtLjAzLjI0My4yNzUuMzM5LjY5LjQ3bC4xNzUuMDU1Yy40MDguMTMzLjk1OC4yODggMS4yNDMuMjk0cS4zOS4wMS44NjgtLjMyIDMuMjY5LTIuMjA2IDMuMzc0LTIuMjNjLjA1LS4wMTIuMTItLjAyNi4xNjYuMDE2cy4wNDIuMTIuMDM3LjE0MWMtLjAzLjEyOS0xLjIyNyAxLjI0MS0xLjg0NiAxLjgxNy0uMTkzLjE4LS4zMy4zMDctLjM1OC4zMzZhOCA4IDAgMCAxLS4xODguMTg2Yy0uMzguMzY2LS42NjQuNjQuMDE1IDEuMDg4LjMyNy4yMTYuNTg5LjM5My44NS41NzEuMjg0LjE5NC41NjguMzg3LjkzNi42MjlxLjE0LjA5Mi4yNy4xODdjLjMzMS4yMzYuNjMuNDQ4Ljk5Ny40MTQuMjE0LS4wMi40MzUtLjIyLjU0Ny0uODIuMjY1LTEuNDE3Ljc4Ni00LjQ4Ni45MDYtNS43NTFhMS40IDEuNCAwIDAgMC0uMDEzLS4zMTUuMzQuMzQgMCAwIDAtLjExNC0uMjE3LjUzLjUzIDAgMCAwLS4zMS0uMDkzYy0uMy4wMDUtLjc2My4xNjYtMi45ODQgMS4wOSIvPgo8L3N2Zz4K" alt="" width="20" height="20" loading="lazy"><span>Написать мне в Telegram @AmalTarget</span></label>
+              <label class="checkbox-card checkbox-card--messenger"><input type="checkbox" name="contact_method" value="phone"><span aria-hidden="true" style="font-size:20px;line-height:1">☎</span><span>Позвонить мне</span></label>
             </div>
           </div>
 
@@ -986,8 +1073,24 @@ p, li {
     </section>
   </main>
 
+  <div class="sticky-contacts" aria-label="Быстрая связь">
+    <a class="sticky-contacts__btn sticky-contacts__phone" href="tel:+79832676282" data-goal="sticky_phone_click" aria-label="Позвонить по номеру +7 983 267-62-82">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.49c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.19 2.2Z" fill="currentColor"/>
+      </svg>
+      <span class="sticky-contacts__hint">Позвонить</span>
+    </a>
+    <a class="sticky-contacts__btn sticky-contacts__tg" href="https://t.me/AmalTarget" target="_blank" rel="noopener" data-goal="sticky_telegram_click" aria-label="Написать в Telegram @AmalTarget">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M21.93 4.44c.29-1.2-.75-1.67-1.55-1.35L2.88 9.84c-1.19.47-1.17 1.15-.2 1.45l4.5 1.4L17.6 6.11c.49-.3.94-.14.57.19l-8.44 7.62-.32 4.77c.47 0 .68-.22.94-.48l2.27-2.2 4.72 3.49c.87.48 1.5.23 1.72-.8l2.87-14.26Z" fill="currentColor"/>
+      </svg>
+      <span class="sticky-contacts__hint">Telegram</span>
+    </a>
+  </div>
+
+
   <script>
-window.YM_COUNTER_ID = 0; // TODO: заменить на номер счетчика Яндекс.Метрики.
+window.YM_COUNTER_ID = 109038656;
 
 (function () {
   const sentGoals = new Set();
@@ -1088,6 +1191,46 @@ window.YM_COUNTER_ID = 0; // TODO: заменить на номер счетчи
     row.addEventListener('change', function () { setError(fieldName, false); }, { passive: true });
   });
 
+  function buildLeadText(payload) {
+    const method = Array.isArray(payload.contact_method) && payload.contact_method.length
+      ? payload.contact_method.join(', ')
+      : 'не указан';
+    const taskLabels = {
+      business_processes: 'Бизнес-процессы',
+      hr_kedo: 'Кадровое дело / HR',
+      accounting: 'Бухгалтерия / учет',
+      unknown: 'Пока не знаю, нужна консультация'
+    };
+    const formatLabels = {
+      krasnoyarsk_meeting: 'Встреча / выезд по Красноярску',
+      online_call: 'Онлайн-созвон',
+      messenger: 'Мессенджер'
+    };
+    return [
+      'Здравствуйте! Хочу бесплатную консультацию по автоматизации.',
+      '',
+      'Имя: ' + (payload.name || '—'),
+      'Телефон / мессенджер: ' + (payload.phone || '—'),
+      'Предпочтительный способ связи: ' + method,
+      'Что автоматизировать: ' + (taskLabels[payload.task] || payload.task || '—'),
+      'Формат консультации: ' + (formatLabels[payload.consultation_format] || payload.consultation_format || '—'),
+      'Страница: ' + (payload.page_source || window.location.href),
+      '',
+      'UTM source: ' + (payload.utm_source || '—'),
+      'UTM campaign: ' + (payload.utm_campaign || '—')
+    ].join('\n');
+  }
+
+  async function copyText(text) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (error) {}
+    return false;
+  }
+
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -1104,6 +1247,8 @@ window.YM_COUNTER_ID = 0; // TODO: заменить на номер счетчи
     const payload = Object.fromEntries(formData.entries());
     payload.contact_method = formData.getAll('contact_method');
     const endpoint = form.dataset.endpoint && form.dataset.endpoint.trim();
+    const telegramUser = (form.dataset.telegram || 'AmalTarget').replace('@', '');
+    const leadText = buildLeadText(payload);
 
     if (message) {
       message.hidden = true;
@@ -1123,8 +1268,17 @@ window.YM_COUNTER_ID = 0; // TODO: заменить на номер счетчи
           body: JSON.stringify(payload)
         });
         if (!response.ok) throw new Error('Form endpoint returned ' + response.status);
+        if (message) {
+          message.textContent = 'Заявка отправлена. Свяжусь с вами в течение рабочего дня.';
+        }
       } else {
-        console.info('Демо-режим формы. Подключите URL отправки в data-endpoint:', payload);
+        const copied = await copyText(leadText);
+        window.open('https://t.me/' + encodeURIComponent(telegramUser), '_blank', 'noopener');
+        if (message) {
+          message.textContent = copied
+            ? 'Telegram открыт. Текст заявки скопирован — вставьте его в чат @' + telegramUser + ' и отправьте.'
+            : 'Telegram открыт. Напишите в чат @' + telegramUser + ' — форма без backend не отправляет заявку автоматически.';
+        }
       }
 
       reachGoal('form_submit');
@@ -1135,7 +1289,7 @@ window.YM_COUNTER_ID = 0; // TODO: заменить на номер счетчи
       if (message) {
         message.hidden = false;
         message.classList.add('is-error');
-        message.textContent = 'Заявка не отправилась. Проверьте подключение формы и попробуйте ещё раз.';
+        message.textContent = 'Заявка не отправилась. Напишите напрямую в Telegram @AmalTarget или позвоните +7 983 267-62-82.';
       }
     } finally {
       if (button) {
