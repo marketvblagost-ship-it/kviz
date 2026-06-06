@@ -521,12 +521,59 @@ p, li {
   font-weight: 700;
 }
 .contact-options {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
 }
-.consultation-options { grid-template-columns: 1fr; }
+.consultation-options {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.contact-choice {
+  position: relative;
+  flex: 1 1 170px;
+  cursor: pointer;
+  user-select: none;
+}
+.contact-choice input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: none;
+}
+.contact-choice span {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--deep-blue);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.15;
+  text-align: center;
+  transition: background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.contact-choice input:checked + span {
+  border-color: var(--deep-blue);
+  background: var(--deep-blue);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(20,35,58,0.16);
+}
+.contact-choice input:focus-visible + span {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
 .checkbox-card {
   min-height: 48px;
   display: grid;
@@ -619,7 +666,8 @@ p, li {
   .lead-form { padding: 24px 20px; }
   .lead-form__head { grid-template-columns: 42px 1fr; gap: 12px; }
   .lead-form__icon { width: 42px; height: 42px; border-radius: 14px; }
-  .contact-options { grid-template-columns: 1fr; }
+  .contact-choice { flex-basis: 100%; }
+  .consultation-options { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 420px) {
@@ -1011,7 +1059,7 @@ p, li {
           </ul>
         </div>
 
-        <form class="lead-form" id="leadForm" data-endpoint="" data-telegram="AmalTarget" novalidate>
+        <form class="lead-form" id="leadForm" data-endpoint="https://script.google.com/macros/s/AKfycbwcP5k9FD8E5ZUg1VCnrh-0ZgHJhmp4EAfUPsHCZ6GLAlYv8j0ebigapOLJiZB904h3NQ/exec" data-telegram="AmalTarget" novalidate>
           <div class="lead-form__head">
             <span class="lead-form__icon" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNDOEE0NUQiIHN0cm9rZS13aWR0aD0iMS45IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogIDxwYXRoIGQ9Ik04IDJ2NCIvPgogIDxwYXRoIGQ9Ik0xNiAydjQiLz4KICA8cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjQiIHJ4PSIyIi8+CiAgPHBhdGggZD0iTTMgMTBoMTgiLz4KICA8cGF0aCBkPSJtOSAxNiAyIDIgNC00Ii8+Cjwvc3ZnPgo=" alt="" width="24" height="24" loading="lazy"></span>
             <div>
@@ -1030,8 +1078,9 @@ p, li {
             <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="phoneError">
             <p class="field-error" id="phoneError" hidden>Введите телефон.</p>
             <div class="contact-options" aria-label="Предпочтительный способ связи">
-              <label class="checkbox-card checkbox-card--messenger"><input type="checkbox" name="contact_method" value="telegram"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0M4QTQ1RCIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTguMjg3IDUuOTA2cS0xLjE2OC40ODYtNC42NjYgMi4wMS0uNTY3LjIyNS0uNTk1LjQ0MmMtLjAzLjI0My4yNzUuMzM5LjY5LjQ3bC4xNzUuMDU1Yy40MDguMTMzLjk1OC4yODggMS4yNDMuMjk0cS4zOS4wMS44NjgtLjMyIDMuMjY5LTIuMjA2IDMuMzc0LTIuMjNjLjA1LS4wMTIuMTItLjAyNi4xNjYuMDE2cy4wNDIuMTIuMDM3LjE0MWMtLjAzLjEyOS0xLjIyNyAxLjI0MS0xLjg0NiAxLjgxNy0uMTkzLjE4LS4zMy4zMDctLjM1OC4zMzZhOCA4IDAgMCAxLS4xODguMTg2Yy0uMzguMzY2LS42NjQuNjQuMDE1IDEuMDg4LjMyNy4yMTYuNTg5LjM5My44NS41NzEuMjg0LjE5NC41NjguMzg3LjkzNi42MjlxLjE0LjA5Mi4yNy4xODdjLjMzMS4yMzYuNjMuNDQ4Ljk5Ny40MTQuMjE0LS4wMi40MzUtLjIyLjU0Ny0uODIuMjY1LTEuNDE3Ljc4Ni00LjQ4Ni45MDYtNS43NTFhMS40IDEuNCAwIDAgMC0uMDEzLS4zMTUuMzQuMzQgMCAwIDAtLjExNC0uMjE3LjUzLjUzIDAgMCAwLS4zMS0uMDkzYy0uMy4wMDUtLjc2My4xNjYtMi45ODQgMS4wOSIvPgo8L3N2Zz4K" alt="" width="20" height="20" loading="lazy"><span>Написать мне в Telegram @AmalTarget</span></label>
-              <label class="checkbox-card checkbox-card--messenger"><input type="checkbox" name="contact_method" value="phone"><span aria-hidden="true" style="font-size:20px;line-height:1">☎</span><span>Позвонить мне</span></label>
+              <label class="contact-choice"><input type="checkbox" name="contact_method" value="telegram"><span>Написать в Telegram</span></label>
+              <label class="contact-choice"><input type="checkbox" name="contact_method" value="max"><span>Написать в MAX</span></label>
+              <label class="contact-choice"><input type="checkbox" name="contact_method" value="phone"><span>Позвонить</span></label>
             </div>
           </div>
 
@@ -1192,8 +1241,13 @@ window.YM_COUNTER_ID = 109038656;
   });
 
   function buildLeadText(payload) {
+    const methodLabels = {
+      telegram: 'Telegram',
+      max: 'MAX',
+      phone: 'Позвонить'
+    };
     const method = Array.isArray(payload.contact_method) && payload.contact_method.length
-      ? payload.contact_method.join(', ')
+      ? payload.contact_method.map(function (value) { return methodLabels[value] || value; }).join(', ')
       : 'не указан';
     const taskLabels = {
       business_processes: 'Бизнес-процессы',
@@ -1249,6 +1303,15 @@ window.YM_COUNTER_ID = 109038656;
     const endpoint = form.dataset.endpoint && form.dataset.endpoint.trim();
     const telegramUser = (form.dataset.telegram || 'AmalTarget').replace('@', '');
     const leadText = buildLeadText(payload);
+    const webhookPayload = {
+      ...payload,
+      source: 'automation_landing',
+      contact: payload.phone || '',
+      message: leadText,
+      lead_text: leadText,
+      application: leadText,
+      page: payload.page_source || window.location.href
+    };
 
     if (message) {
       message.hidden = true;
@@ -1262,14 +1325,14 @@ window.YM_COUNTER_ID = 109038656;
 
     try {
       if (endpoint) {
-        const response = await fetch(endpoint, {
+        await fetch(endpoint, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(webhookPayload)
         });
-        if (!response.ok) throw new Error('Form endpoint returned ' + response.status);
         if (message) {
-          message.textContent = 'Заявка отправлена. Свяжусь с вами в течение рабочего дня.';
+          message.textContent = 'Заявка отправлена. Уведомление пришло в Telegram.';
         }
       } else {
         const copied = await copyText(leadText);
@@ -1286,10 +1349,14 @@ window.YM_COUNTER_ID = 109038656;
       fillHiddenFields();
       if (message) message.hidden = false;
     } catch (error) {
+      const copied = await copyText(leadText);
+      window.open('https://t.me/' + encodeURIComponent(telegramUser), '_blank', 'noopener');
       if (message) {
         message.hidden = false;
         message.classList.add('is-error');
-        message.textContent = 'Заявка не отправилась. Напишите напрямую в Telegram @AmalTarget или позвоните +7 983 267-62-82.';
+        message.textContent = copied
+          ? 'Автоотправка не прошла. Telegram открыт, текст заявки скопирован.'
+          : 'Автоотправка не прошла. Напишите напрямую в Telegram @AmalTarget или позвоните +7 983 267-62-82.';
       }
     } finally {
       if (button) {
